@@ -15,9 +15,10 @@ from pygame import *
 from GraphAlgo import GraphAlgo
 import matplotlib.pyplot as plt
 
+import time
 import pygame_menu
 # from pygame_menu.examples import create_example_window
-# import math
+import math
 # import tkinter as tk
 # from tkinter import filedialog
 # from tkinter import END
@@ -28,6 +29,28 @@ import pygame_menu
 #                                      calculate function                                               #
 #########################################################################################################
 
+
+
+def arrow(start, end, d, h, color):
+    dx =(end[0] - start[0])
+    dy =(end[1] - start[1])
+    D = (math.sqrt(dx * dx + dy * dy))
+    xm =(D - d)
+    xn =(xm)
+    ym =(h)
+    yn = -h
+    sin = dy / D
+    cos = dx / D
+    x = xm * cos - ym * sin + start[0]
+    ym = xm * sin + ym * cos + start[1]
+    xm = x
+    x = xn * cos - yn * sin + start[0]
+    yn = xn * sin + yn * cos + start[1]
+    xn = x
+    points = [(end[0], end[1]), (int(xm), int(ym)), (int(xn), int(yn))]
+
+    # pygame.draw.line(surface, color, start, end, width=3)
+    pygame.draw.polygon(screen, color, points)
 
 def edge_for_pokemon_calculator(pokemons, alg:GraphAlgo):
     """
@@ -91,6 +114,8 @@ def agent_alocate_calculator_update(agents:{}, agents_mission:{}, edge_for_pokem
     for p_id, p_e in edge_for_pokemon.items():
         src_id = p_e.get_src()
         dest_id = p_e.get_dest()
+        # if not pokemon_is_alocated.get((src_id,'-',dest_id)):
+            # pokemon_is_alocated[(src_id, '-', dest_id)] = True  #Todo: need this?
         mission_list:[]
         min_short_path = []
         min_dest = float('inf')
@@ -136,6 +161,82 @@ def agent_alocate_calculator_update(agents:{}, agents_mission:{}, edge_for_pokem
 
 
 
+def agent_alocate_calculator_update_multi(agents:{}, agents_mission:{}, edge_for_pokemon:{} , alg:GraphAlgo, agent_ids):
+    """
+    calculat the best alocats of pokemon for any agent and update
+    there mission lists
+    :param agents: dict of agents
+    :param agent_ids: id's agents to check for
+    :param agents_mission: mission for now of agent
+    :param edge_for_pokemon: edge the pokemons on them
+    :param alg: main AlgoGraph
+    :return: updated agents_mission
+    """
+    p_e:Edge
+
+    for agent_id, mission_list in agents_mission.items():
+        if agent_id in agent_ids and len(mission_list) < 2:
+            agent = agents[agent_id]
+            for p_id, p_e in edge_for_pokemon.items():
+                src_id = p_e.get_src()
+                dest_id = p_e.get_dest()
+                mission_list: []
+                min_short_path = []
+                min_dest = float('inf')
+                at_end = False
+
+                if not pokemon_is_alocated.get((src_id,'-',dest_id)):   #if pok not allocated
+
+
+                    if src_id in mission_list and dest_id in mission_list:
+                        pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                        break # the pokemon on list of agent   #Todo: check that only internal loop is break
+                    elif src_id in mission_list and not dest_id in mission_list:
+                        if agent.src == dest_id:
+                            pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                            break
+                        mission_list.insert(mission_list.index(src_id)+1, dest_id)
+                        print(mission_list.index(src_id))
+                        print(len(mission_list) - 1)
+                        if mission_list.index(dest_id) != (len(mission_list)-1):
+                            mission_list.insert(mission_list.index(dest_id)+1, src_id)
+                        pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                        break
+
+                    elif not src_id in mission_list and dest_id in mission_list:
+                        if agent.src == src_id:
+                            pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                            break
+                        mission_list.insert(mission_list.index(dest_id)+1, src_id)
+                        if mission_list.index(src_id) != (len(mission_list)- 1):
+                            mission_list.insert(mission_list.index(src_id)+1, dest_id)
+                        pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                        break
+
+                    else:   # if not in list of mission
+                        temp_d, temp_path = alg.shortest_path(mission_list[-1], src_id)   #Todo: mission_list[-1] is the last one ?
+                        # p = [p for p in pokemons if p.id==p_id]
+                        p = next(n for n in pokemons if n.id == p_id)
+                        temp_d = (temp_d * agent.speed)/p.value
+                        if temp_d < min_dest:
+                            min_dest = temp_d
+                            min_short_path = temp_path
+                            min_short_path.append(dest_id)
+                            min_agent = agent.id
+                            min_src_id = src_id
+                            min_dest_id = dest_id
+                        at_end = True
+
+            if at_end:
+                min_short_path.pop(0)
+                # min_short_path.append(dest_id)
+                pokemon_is_alocated[(min_src_id, '-', min_dest_id)] = True
+                agents_mission[agent.id] = agents_mission[agent.id]+min_short_path
+    print(agents_mission)
+    return agents_mission
+
+
+
 #########################################################################################################
 #                                     main game play                                                    #
 #########################################################################################################
@@ -156,6 +257,7 @@ pygame.init()
 screen = display.set_mode((WIDTH, HEIGHT), depth=32, flags=RESIZABLE)
 # screen = create_example_window('MY GRAPH', (WIDTH, HEIGHT))#(, depth=32, flags=RESIZABLE)
 clock = pygame.time.Clock()
+time_game = pygame.time.Clock()
 pygame.font.init()
 
 
@@ -228,7 +330,8 @@ main_menu.add.button('STOP And Exit', client.stop_connection)  # Add exit
 # init graph:
 graph_json = client.get_graph()
 
-FONT = pygame.font.SysFont('Arial', 20, bold=True)
+FONT = pygame.font.SysFont('comicsans', 18, bold=True)
+FONT_in = pygame.font.SysFont('comicsans', 13, bold=True)
 # load the json string into SimpleNamespace Object
 
 graph = json.loads(
@@ -267,7 +370,7 @@ print('\nedges: ',alg.get_graph()._Edges,'\n\n')
 
 # pokemons = client.get_pokemons()
 # pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
-
+global pokemons
 pokemons = json.loads(client.get_pokemons(),
                           object_hook=lambda d: SimpleNamespace(**d)).Pokemons
 pokemons = [p.Pokemon for p in pokemons]
@@ -280,8 +383,13 @@ for p in pokemons:
 
 
 edge_for_pokemon  = edge_for_pokemon_calculator(pokemons, alg)
+global pokemon_is_alocated
+pokemon_is_alocated = {}
+e:Edge
+for e in edge_for_pokemon.values():
+    pokemon_is_alocated[(e.get_src(),'-',e.get_dest())] = False
 
-print(pokemons)
+
 
 # graph_json = client.get_graph()
 #
@@ -340,6 +448,7 @@ while ag_sucses == 'true':
 
 # this commnad starts the server - the game is running now
 client.start()
+time_from_start = time.time()
 
 """
 The code below should be improved significantly:
@@ -361,6 +470,8 @@ while client.is_running() == 'true':
             p.id = p_id
             p_id = p_id + 1
         edge_for_pokemon:{} = edge_for_pokemon_calculator(pokemons, alg)
+        for e in edge_for_pokemon.values():
+            pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
 
         agents = json.loads(client.get_agents(),
                             object_hook=lambda d: SimpleNamespace(**d)).Agents
@@ -390,21 +501,19 @@ while client.is_running() == 'true':
         # refresh surface
         screen.fill(Color(0,134,139))
 
-        # draw nodes
-        for n in graph.Nodes:
-            x = n.pos.x #my_scale(n.pos.x, x=True)
-            y = n.pos.y #my_scale(n.pos.y, y=True)
+        # drow text
+        inf = json.loads(client.get_info(),
+                            object_hook=lambda d: SimpleNamespace(**d)).GameServer
+        text = FONT.render("Moves: {}".format(inf.moves, (float())), True, (0, 0, 0))
+        screen.blit(text, (105, 25))
+        # if inf.moves != 0:
+        text = FONT.render("Moves/second: {:.1f}".format(inf.moves/(time.time() - time_from_start)), True, (0, 0, 0))
+        screen.blit(text, (105, 45))
+        text = FONT.render("time: {:.1f}".format((time.time() - time_from_start)), True, (0, 0, 0))
+        screen.blit(text, (105, 65))
+        text = FONT.render("grade: {}".format(inf.grade), True, (0, 0, 0))
+        screen.blit(text, (105, 85))
 
-            # its just to get a nice antialiased circle
-            gfxdraw.filled_circle(screen, int(x), int(y),
-                                  radius, Color(64, 80, 174))
-            gfxdraw.aacircle(screen, int(x), int(y),
-                             radius, Color(255, 255, 255))
-
-            # draw the node id
-            id_srf = FONT.render(str(n.id), True, Color(255, 255, 255))
-            rect = id_srf.get_rect(center=(x, y))
-            screen.blit(id_srf, rect)
 
         # draw edges
         for e in graph.Edges:
@@ -421,13 +530,34 @@ while client.is_running() == 'true':
             # draw the line
             pygame.draw.line(screen, Color(61, 72, 126),
                              (src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y))
+            arrow((src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y), 23, 5, color=(61, 72, 126))
             # pygame.draw.line(screen, Color(61, 72, 126),
             #                  (src_x, src_y), (dest_x, dest_y))
+
+        # draw nodes
+        for n in graph.Nodes:
+            x = n.pos.x  # my_scale(n.pos.x, x=True)
+            y = n.pos.y  # my_scale(n.pos.y, y=True)
+
+            # its just to get a nice antialiased circle
+            gfxdraw.filled_circle(screen, int(x), int(y),
+                                  radius, Color(64, 80, 174))
+            gfxdraw.aacircle(screen, int(x), int(y),
+                             radius, Color(255, 255, 255))
+
+            # draw the node id
+            id_srf = FONT.render(str(n.id), True, Color(255, 255, 255))
+            rect = id_srf.get_rect(center=(x, y))
+            screen.blit(id_srf, rect)
 
         # draw agents
         for agent in agents.values():
             pygame.draw.circle(screen, Color(122, 61, 23),
                                (int(agent.pos.x), int(agent.pos.y)), 10)
+            # draw the agent id
+            val_srf = FONT_in.render(str(int(agent.value)), True, Color(0, 0, 0))
+            rect = val_srf.get_rect(center=((int(agent.pos.x), int(agent.pos.y))))
+            screen.blit(val_srf, rect)
         # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons (currently they are marked in the same way).
         for p in pokemons:
             # edge_of_p:Edge = edge_for_pokemon.get(p.id)
@@ -435,23 +565,29 @@ while client.is_running() == 'true':
                 pygame.draw.circle(screen, Color(0, 255, 255), (int(p.pos.x), int(p.pos.y)), 10)
             else:
                 pygame.draw.circle(screen, Color(255, 255, 0), (int(p.pos.x), int(p.pos.y)), 10)
+            # draw the pokemon value
+            val_srf = FONT_in.render(str(int(p.value)), True, Color(0, 0, 0))
+            rect = val_srf.get_rect(center=((int(p.pos.x), int(p.pos.y))))
+            screen.blit(val_srf, rect)
 
 
         # update screen changes
         display.update()
 
         # refresh rate
-        clock.tick(60)
+        clock.tick(600)
 
         # choose next edge
         agent_to_allocate = []
         for agent in agents.values():
             if agent.dest == -1:
                 agent_to_allocate.append(agent.id)
+        count_of_change = 0
         if len(agent_to_allocate) > 0:
-            agent_alocate_calculator_update(agents, agents_mission, edge_for_pokemon, alg, agent_to_allocate)
+            agent_alocate_calculator_update_multi(agents, agents_mission, edge_for_pokemon, alg, agent_to_allocate)
             for agent in agents.values():
                 if agent.dest == -1:
+                    count_of_change = count_of_change + 1
                     if len(agents_mission[agent.id]) > 1:
                         next_node = agents_mission[agent.id].pop(0)
                     else:
@@ -462,10 +598,13 @@ while client.is_running() == 'true':
                     ttl = client.time_to_end()
                     print(ttl, client.get_info())
 
-        client.move()
+
+        if count_of_change==0 and inf.moves/(time.time()-time_from_start)<10:
+            client.move()
     else:
         # Background color if the menu is enabled and graph is hidden
         screen.fill((40, 0, 40))
+    print(time.time()-time_from_start)
 # game over:
 
 
