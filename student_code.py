@@ -174,6 +174,14 @@ def agent_alocate_calculator_update_multi(agents:{}, agents_mission:{}, edge_for
     """
     p_e:Edge
 
+    # for agent_id, mission_list in agents_mission.items():
+    #     first=2
+    #     for m in mission_list:
+    #         if first == 0:
+    #             del mission_list[mission_list.index(m)]
+    #         else:
+    #             first =first-1
+
     for agent_id, mission_list in agents_mission.items():
         if agent_id in agent_ids and len(mission_list) < 2:
             agent = agents[agent_id]
@@ -217,7 +225,7 @@ def agent_alocate_calculator_update_multi(agents:{}, agents_mission:{}, edge_for
                         temp_d, temp_path = alg.shortest_path(mission_list[-1], src_id)   #Todo: mission_list[-1] is the last one ?
                         # p = [p for p in pokemons if p.id==p_id]
                         p = next(n for n in pokemons if n.id == p_id)
-                        temp_d = (temp_d * agent.speed)/p.value
+                        temp_d = (temp_d * agent.value * agent.speed)/p.value
                         if temp_d < min_dest:
                             min_dest = temp_d
                             min_short_path = temp_path
@@ -265,7 +273,7 @@ client = Client()
 client.start_connection(HOST, PORT)
 
 #############################################################################
-#                          try pygame_menu                                  #
+#                              pygame_menu                                  #
 #############################################################################
 
 theme = pygame_menu.themes.THEME_DARK.copy()  # Create a new copy
@@ -293,10 +301,12 @@ about_menu = pygame_menu.Menu(
     title='About',
     width=600
 )
-m = "Assignment 3: Graphs\n" \
+m = "Assignment 3: The Pokemon game\n" \
     "Authors: Roee Tal and Yossi Elias\n\n" \
-    "We have created this interface\n in order to make the operation of the\n functions more accessible\n\n" \
-    "We hope the use of this \ninterface is as intuitive and convenient \nas we tried to create it."
+    "We hope the use of this \ninterface is as intuitive and convenient \nas we tried to create it.\n\n"\
+    "Note: The value on the agents\n is the amount of points they \nhave accumulated so far\n" \
+    "The value on the Pokemon marks \nthe value of each"
+
 
 about_menu.add.label(m, margin=(0, 0))
 # about_menu.add.label('')
@@ -321,7 +331,7 @@ main_menu = pygame_menu.Menu(
     width=600
 )
 main_menu.add.button(about_menu.get_title(), about_menu)  # Add about submenu
-main_menu.add.button('STOP And Exit', client.stop_connection)  # Add exit
+main_menu.add.button('STOP And Exit (Double-tap)', client.stop_connection)  # Add exit
 
 
 
@@ -459,6 +469,10 @@ while client.is_running() == 'true':
     current_menu = main_menu.get_current()
     if current_menu.get_title() != 'Main Menu' or not main_menu.is_enabled():
 
+        image = pygame.image.load(r'pocemon.jpg ')
+        image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
+        # copying the image surface object to the display surface object at (0, 0) coordinate.
+        screen.blit(image, (0, 0))
         pokemons = json.loads(client.get_pokemons(),
                               object_hook=lambda d: SimpleNamespace(**d)).Pokemons
         pokemons = [p.Pokemon for p in pokemons]
@@ -472,6 +486,11 @@ while client.is_running() == 'true':
         edge_for_pokemon:{} = edge_for_pokemon_calculator(pokemons, alg)
         for e in edge_for_pokemon.values():
             pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
+            # is_in = False
+            # for agent_id, mission_list in agents_mission.items():
+            #     if e.get_src() in mission_list and e.get_dest() in mission_list:
+            #         is_in = True
+            # if not is_in:
 
         agents = json.loads(client.get_agents(),
                             object_hook=lambda d: SimpleNamespace(**d)).Agents
@@ -499,6 +518,7 @@ while client.is_running() == 'true':
 
         # pygame.display.flip()
         # refresh surface
+        # screen.blit(image, (0, 0))
         screen.fill(Color(0,134,139))
 
         # drow text
@@ -513,6 +533,10 @@ while client.is_running() == 'true':
         screen.blit(text, (105, 65))
         text = FONT.render("grade: {}".format(inf.grade), True, (0, 0, 0))
         screen.blit(text, (105, 85))
+        esc_text = FONT_in.render("To get to the Main-Menu please press->\'esc\'", True, (0, 0, 0))
+        screen.blit(esc_text, (25, 2))
+        text = FONT.render("Level: {}".format(inf.game_level), True, (255, 255, 255))
+        screen.blit(text, (690, 680))
 
 
         # draw edges
@@ -603,7 +627,8 @@ while client.is_running() == 'true':
             client.move()
     else:
         # Background color if the menu is enabled and graph is hidden
-        screen.fill((40, 0, 40))
+        # screen.fill((40, 0, 40))
+        screen.blit(image, (0, 0))
     print(time.time()-time_from_start)
 # game over:
 
