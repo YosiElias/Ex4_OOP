@@ -391,7 +391,8 @@ max_y = max(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
 
 
 for n in graph.Nodes:
-    n.pos = SimpleNamespace(x= my_scale(float(n.pos.x), x=True), y= my_scale(float(n.pos.y), y=True))
+    n.pos = SimpleNamespace(x= float(n.pos.x), y=float(n.pos.y))
+    # n.pos = SimpleNamespace(x= my_scale(float(n.pos.x), x=True), y= my_scale(float(n.pos.y), y=True))
     id_n = n.id
     alg.get_graph().add_node(id_n, (n.pos.x, n.pos.y))
     print('\nnode_scaled: ',alg.get_graph().getNode(id_n).get_location())
@@ -414,7 +415,8 @@ pokemons = [p.Pokemon for p in pokemons]
 p_id = 0
 for p in pokemons:
     x, y, _ = p.pos.split(',')
-    p.pos = SimpleNamespace(x=my_scale(float(x), x=True), y=my_scale(float(y), y=True))
+    p.pos = SimpleNamespace(x=float(x), y=float(y))
+    # p.pos = SimpleNamespace(x=my_scale(float(x), x=True), y=my_scale(float(y), y=True))
     p.id = p_id
     p_id = p_id +1
 
@@ -492,25 +494,86 @@ The code below should be improved significantly:
 The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
 """
 
+
 while client.is_running() == 'true':
     current_menu = main_menu.get_current()
     if current_menu.get_title() != 'Main Menu' or not main_menu.is_enabled():
 
         # image = pygame.image.load(r'pocemon.jpg ')
         # image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
-        # copying the image surface object to the display surface object at (0, 0) coordinate.
+        # # copying the image surface object to the display surface object at (0, 0) coordinate.
         # screen.blit(image, (0, 0))
+
+        # check events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit(0)
+            # if event.type == pygame.VIDEORESIZE:
+                # # re-init graph, for case the size of screen change:
+                # alg = GraphAlgo()
+                # graph_json = client.get_graph()
+                # graph = json.loads(
+                #     graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
+                # for n in graph.Nodes:
+                #     x, y, _ = n.pos.split(',')
+                #     n.pos = SimpleNamespace(x=float(x), y=float(y))
+                #     n.pos = SimpleNamespace(x=my_scale(float(n.pos.x), x=True), y=my_scale(float(n.pos.y), y=True))
+                #     alg.get_graph().add_node(id_n, (n.pos.x, n.pos.y))
+                #     id_n = n.id
+                # for e in graph.Edges:
+                #     alg.get_graph().add_edge(e.src, e.dest, e.w)
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE and \
+                        current_menu.get_title() == 'Main Menu':
+                    main_menu.toggle()
+
+        if main_menu.is_enabled():
+            main_menu.mainloop(screen)
+            # main_menu.draw(screen)
+            # main_menu.update(pygame.event.get())
+
+        # pygame.display.flip()
+        # refresh surface
+        # screen.blit(image, (0, 0))
+        screen.fill(Color(0, 134, 139))
+
+
+
+        graph_json = client.get_graph()
+        graph = json.loads(
+            graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
+        for n in graph.Nodes:
+            x, y, _ = n.pos.split(',')
+            n.pos = SimpleNamespace(x=float(x), y=float(y))
+            n.pos = SimpleNamespace(x=my_scale(float(n.pos.x), x=True), y=my_scale(float(n.pos.y), y=True))
+            # alg.get_graph().add_node(id_n, (n.pos.x, n.pos.y))
+            id_n = n.id
+        # for e in graph.Edges:
+            # alg.get_graph().add_edge(e.src, e.dest, e.w)
+
+
+
+
+
+
         pokemons = json.loads(client.get_pokemons(),
                               object_hook=lambda d: SimpleNamespace(**d)).Pokemons
         pokemons = [p.Pokemon for p in pokemons]
         p_id = 0
         for p in pokemons:
             x, y, _ = p.pos.split(',')
-            p.pos = SimpleNamespace(x=my_scale(
-                float(x), x=True), y=my_scale(float(y), y=True))
+            p.pos = SimpleNamespace(x=
+                float(x), y=float(y))
             p.id = p_id
             p_id = p_id + 1
         edge_for_pokemon:{} = edge_for_pokemon_calculator(pokemons, alg)
+
+        for p in pokemons:
+            p.pos = SimpleNamespace(x=my_scale(
+                float(p.pos.x), x=True), y=my_scale(float(p.pos.y), y=True))
+
         for e in edge_for_pokemon.values():
             pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
             # is_in = False
@@ -528,25 +591,20 @@ while client.is_running() == 'true':
             a.pos = SimpleNamespace(x=my_scale(
                 float(x), x=True), y=my_scale(float(y), y=True))
             agents[a.id] = a
-        # check events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit(0)
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE and \
-                        current_menu.get_title() == 'Main Menu':
-                    main_menu.toggle()
 
-        if main_menu.is_enabled():
-            main_menu.mainloop(screen)
-            # main_menu.draw(screen)
-            # main_menu.update(pygame.event.get())
 
-        # pygame.display.flip()
-        # refresh surface
-        # screen.blit(image, (0, 0))
-        screen.fill(Color(0,134,139))
+
+
+
+
+
+
+
+
+
+
+
+
 
         # drow text
         inf = json.loads(client.get_info(),
@@ -579,6 +637,8 @@ while client.is_running() == 'true':
             # dest_y = my_scale(dest.pos.y, y=True)
 
             # draw the line
+            # pygame.draw.line(screen, Color(61, 72, 126),
+            #                  (my_scale(src.pos.x, x=True), my_scale(src.pos.y, y=True)), (my_scale(dest.pos.x,x=True), my_scale(dest.pos.y,y=True)))
             pygame.draw.line(screen, Color(61, 72, 126),
                              (src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y))
             arrow((src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y), 23, 5, color=(61, 72, 126))
@@ -606,7 +666,7 @@ while client.is_running() == 'true':
             pygame.draw.circle(screen, Color(122, 61, 23),
                                (int(agent.pos.x), int(agent.pos.y)), 10)
             # draw the agent id
-            val_srf = FONT_in.render((str(int(agent.id))), True, Color(0, 0, 0))
+            val_srf = FONT_in.render(str(int(agent.value)), True, Color(0, 0, 0))
             rect = val_srf.get_rect(center=((int(agent.pos.x), int(agent.pos.y))))
             screen.blit(val_srf, rect)
         # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons (currently they are marked in the same way).
@@ -639,10 +699,13 @@ while client.is_running() == 'true':
             for agent in agents.values():
                 if agent.dest == -1:
                     count_of_change = count_of_change + 1
-                    if len(agents_mission[agent.id]) > 1:
-                        next_node = agents_mission[agent.id].pop(0)
-                    else:
-                        next_node = agents_mission[agent.id][0]
+                    if agent.src==agents_mission[agent.id][0] and len(agents_mission[agent.id]) > 1:
+                        agents_mission[agent.id].pop(0)
+                    next_node = agents_mission[agent.id][0]
+                    # if len(agents_mission[agent.id]) > 1:
+                    #     next_node = agents_mission[agent.id].pop(0)
+                    # else:
+                    #     next_node = agents_mission[agent.id][0]
                     # next_node = (agent.src - 1) % len(graph.Nodes)
                     client.choose_next_edge(
                         '{"agent_id":'+str(agent.id)+', "next_node_id":'+str(next_node)+'}')
@@ -650,7 +713,7 @@ while client.is_running() == 'true':
                     print(ttl, client.get_info())
 
 
-        if count_of_change==0 and inf.moves/(time.time()-time_from_start)<10:
+        if inf.moves/(time.time()-time_from_start)<10:  #count_of_change==0 and
             client.move()
     else:
         # Background color if the menu is enabled and graph is hidden
@@ -658,6 +721,177 @@ while client.is_running() == 'true':
         screen.blit(image, (0, 0))
     # print(time.time()-time_from_start)
 # game over:
+
+#
+# while client.is_running() == 'true':
+#     current_menu = main_menu.get_current()
+#     if current_menu.get_title() != 'Main Menu' or not main_menu.is_enabled():
+#
+#         # image = pygame.image.load(r'pocemon.jpg ')
+#         # image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
+#         # copying the image surface object to the display surface object at (0, 0) coordinate.
+#         # screen.blit(image, (0, 0))
+#         pokemons = json.loads(client.get_pokemons(),
+#                               object_hook=lambda d: SimpleNamespace(**d)).Pokemons
+#         pokemons = [p.Pokemon for p in pokemons]
+#         p_id = 0
+#         for p in pokemons:
+#             x, y, _ = p.pos.split(',')
+#             p.pos = SimpleNamespace(x=my_scale(float(x), x=True), y=my_scale(float(y), y=True))
+#             # p.pos = SimpleNamespace(x=float(x), y=float(y))
+#             p.id = p_id
+#             p_id = p_id + 1
+#         edge_for_pokemon:{} = edge_for_pokemon_calculator(pokemons, alg)
+#         for e in edge_for_pokemon.values():
+#             pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
+#             # is_in = False
+#             # for agent_id, mission_list in agents_mission.items():
+#             #     if e.get_src() in mission_list and e.get_dest() in mission_list:
+#             #         is_in = True
+#             # if not is_in:
+#
+#         agents = json.loads(client.get_agents(),
+#                             object_hook=lambda d: SimpleNamespace(**d)).Agents
+#         agents_list = [agent.Agent for agent in agents]
+#         agents = {}
+#         for a in agents_list:
+#             x, y, _ = a.pos.split(',')
+#             a.pos = SimpleNamespace(x=my_scale(
+#                 float(x), x=True), y=my_scale(float(y), y=True))
+#             agents[a.id] = a
+#         # check events
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 pygame.quit()
+#                 exit(0)
+#             elif event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_ESCAPE and \
+#                         current_menu.get_title() == 'Main Menu':
+#                     main_menu.toggle()
+#
+#         if main_menu.is_enabled():
+#             main_menu.mainloop(screen)
+#             # main_menu.draw(screen)
+#             # main_menu.update(pygame.event.get())
+#
+#         # pygame.display.flip()
+#         # refresh surface
+#         # screen.blit(image, (0, 0))
+#         screen.fill(Color(0,134,139))
+#
+#         # drow text
+#         inf = json.loads(client.get_info(),
+#                             object_hook=lambda d: SimpleNamespace(**d)).GameServer
+#         text = FONT.render("Moves: {}".format(inf.moves, (float())), True, (0, 0, 0))
+#         screen.blit(text, (105, 25))
+#         # if inf.moves != 0:
+#         text = FONT.render("Moves/second: {:.1f}".format(inf.moves/(time.time() - time_from_start)), True, (0, 0, 0))
+#         screen.blit(text, (105, 45))
+#         text = FONT.render("time: {:.1f}".format((time.time() - time_from_start)), True, (0, 0, 0))
+#         screen.blit(text, (105, 65))
+#         text = FONT.render("grade: {}".format(inf.grade), True, (0, 0, 0))
+#         screen.blit(text, (105, 85))
+#         esc_text = FONT_in.render("To get to the Main-Menu please press->\'esc\'", True, (0, 0, 0))
+#         screen.blit(esc_text, (25, 2))
+#         text = FONT.render("Level: {}".format(inf.game_level), True, (255, 255, 255))
+#         screen.blit(text, (690, 680))
+#
+#
+#         # draw edges
+#         for e in graph.Edges:
+#             # find the edge nodes
+#             src = next(n for n in graph.Nodes if n.id == e.src)
+#             dest = next(n for n in graph.Nodes if n.id == e.dest)
+#
+#             # # scaled positions
+#             # src_x = my_scale(src.pos.x, x=True)
+#             # src_y = my_scale(src.pos.y, y=True)
+#             # dest_x = my_scale(dest.pos.x, x=True)
+#             # dest_y = my_scale(dest.pos.y, y=True)
+#
+#             # draw the line
+#             pygame.draw.line(screen, Color(61, 72, 126),
+#                              (src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y))
+#             arrow((src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y), 23, 5, color=(61, 72, 126))
+#             # pygame.draw.line(screen, Color(61, 72, 126),
+#             #                  (src_x, src_y), (dest_x, dest_y))
+#
+#         # draw nodes
+#         for n in graph.Nodes:
+#             x = n.pos.x  # my_scale(n.pos.x, x=True)
+#             y = n.pos.y  # my_scale(n.pos.y, y=True)
+#
+#             # its just to get a nice antialiased circle
+#             gfxdraw.filled_circle(screen, int(x), int(y),
+#                                   radius, Color(64, 80, 174))
+#             gfxdraw.aacircle(screen, int(x), int(y),
+#                              radius, Color(255, 255, 255))
+#
+#             # draw the node id
+#             id_srf = FONT.render(str(n.id), True, Color(255, 255, 255))
+#             rect = id_srf.get_rect(center=(x, y))
+#             screen.blit(id_srf, rect)
+#
+#         # draw agents
+#         for agent in agents.values():
+#             pygame.draw.circle(screen, Color(122, 61, 23),
+#                                (int(agent.pos.x), int(agent.pos.y)), 10)
+#             # draw the agent id
+#             val_srf = FONT_in.render((str(int(agent.id))), True, Color(0, 0, 0))
+#             rect = val_srf.get_rect(center=((int(agent.pos.x), int(agent.pos.y))))
+#             screen.blit(val_srf, rect)
+#         # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons (currently they are marked in the same way).
+#         for p in pokemons:
+#             # edge_of_p:Edge = edge_for_pokemon.get(p.id)
+#             if p.type > 0:
+#                 pygame.draw.circle(screen, Color(0, 255, 255), (int(p.pos.x), int(p.pos.y)), 10)
+#             else:
+#                 pygame.draw.circle(screen, Color(255, 255, 0), (int(p.pos.x), int(p.pos.y)), 10)
+#             # draw the pokemon value
+#             val_srf = FONT_in.render(str(int(p.value)), True, Color(0, 0, 0))
+#             rect = val_srf.get_rect(center=((int(p.pos.x), int(p.pos.y))))
+#             screen.blit(val_srf, rect)
+#
+#
+#         # update screen changes
+#         display.update()
+#
+#         # refresh rate
+#         clock.tick(600)
+#
+#         # choose next edge
+#         agent_to_allocate = []
+#         for agent in agents.values():
+#             if agent.dest == -1:
+#                 agent_to_allocate.append(agent.id)
+#         count_of_change = 0
+#         if len(agent_to_allocate) > 0:
+#             agent_alocate_calculator_update_multi(agents, agents_mission, edge_for_pokemon, alg, agent_to_allocate)
+#             for agent in agents.values():
+#                 if agent.dest == -1:
+#                     count_of_change = count_of_change + 1
+#                     if agent.src==agents_mission[agent.id][0] and len(agents_mission[agent.id]) > 1:
+#                         agents_mission[agent.id].pop(0)
+#                     next_node = agents_mission[agent.id][0]
+#                     # if len(agents_mission[agent.id]) > 1:
+#                     #     next_node = agents_mission[agent.id].pop(0)
+#                     # else:
+#                     #     next_node = agents_mission[agent.id][0]
+#                     # next_node = (agent.src - 1) % len(graph.Nodes)
+#                     client.choose_next_edge(
+#                         '{"agent_id":'+str(agent.id)+', "next_node_id":'+str(next_node)+'}')
+#                     ttl = client.time_to_end()
+#                     print(ttl, client.get_info())
+#
+#
+#         if inf.moves/(time.time()-time_from_start)<10:  #count_of_change==0 and
+#             client.move()
+#     else:
+#         # Background color if the menu is enabled and graph is hidden
+#         # screen.fill((40, 0, 40))
+#         screen.blit(image, (0, 0))
+#     # print(time.time()-time_from_start)
+# # game over:
 
 
 
