@@ -99,66 +99,66 @@ def scale(data, min_screen, max_screen, min_data, max_data):
     """
     return ((data - min_data) / (max_data-min_data)) * (max_screen - min_screen) + min_screen
 
-# def agent_alocate_calculator_update(agents:{}, agents_mission:{}, edge_for_pokemon:{} , alg:GraphAlgo, agent_ids):
-#     """
-#     calculat the best alocats of pokemon for any agent and update
-#     there mission lists
-#     :param agents: dict of agents
-#     :param agent_ids: id's agents to check for
-#     :param agents_mission: mission for now of agent
-#     :param edge_for_pokemon: edge the pokemons on them
-#     :param alg: main AlgoGraph
-#     :return: updated agents_mission
-#     """
-#     p_e:Edge
-#     for p_id, p_e in edge_for_pokemon.items():
-#         src_id = p_e.get_src()
-#         dest_id = p_e.get_dest()
-#         # if not pokemon_is_alocated.get((src_id,'-',dest_id)):
-#             # pokemon_is_alocated[(src_id, '-', dest_id)] = True  #Todo: need this?
-#         mission_list:[]
-#         min_short_path = []
-#         min_dest = float('inf')
-#         at_end = False
-#         for agent_id, mission_list in agents_mission.items():
-#             if agent_id in agent_to_allocate:
-#                 agent = agents[agent_id]
-#                 if src_id in mission_list and dest_id in mission_list:
-#                     break # the pokemon on list of agent   #Todo: check that only internal loop is break
-#                 elif src_id in mission_list and not dest_id in mission_list:
-#                     if agent.src == dest_id:
-#                         break
-#                     mission_list.insert(mission_list.index(src_id)+1, dest_id)
-#                     print(mission_list.index(src_id))
-#                     print(len(mission_list) - 1)
-#                     if mission_list.index(dest_id) != (len(mission_list)-1):
-#                         mission_list.insert(mission_list.index(dest_id)+1, src_id)
-#                     break
-#
-#                 elif not src_id in mission_list and dest_id in mission_list:
-#                     if agent.src == src_id:
-#                         break
-#                     mission_list.insert(mission_list.index(dest_id)+1, src_id)
-#                     if mission_list.index(src_id) != (len(mission_list)- 1):
-#                         mission_list.insert(mission_list.index(src_id)+1, dest_id)
-#                     break
-#
-#                 else:   # if not in list of mission
-#                     temp_d, temp_path = alg.shortest_path(mission_list[-1], src_id)   #Todo: mission_list[-1] is the last one ?
-#                     temp_d = temp_d * agent.speed
-#                     if temp_d < min_dest:
-#                         min_dest = temp_d
-#                         min_short_path = temp_path
-#                         min_agent = agent.id
-#                     at_end = True
-#
-#         if at_end:
-#             min_short_path.pop(0)
-#             min_short_path.append(dest_id)
-#             agents_mission[min_agent] = agents_mission[min_agent]+min_short_path
-#     print(agents_mission)
-#     return agents_mission
-#
+def agent_alocate_calculator_update(agents:{}, agents_mission:{}, edge_for_pokemon:{} , alg:GraphAlgo, agent_ids):
+    """
+    calculat the best alocats of pokemon for any agent and update
+    there mission lists
+    :param agents: dict of agents
+    :param agent_ids: id's agents to check for
+    :param agents_mission: mission for now of agent
+    :param edge_for_pokemon: edge the pokemons on them
+    :param alg: main AlgoGraph
+    :return: updated agents_mission
+    """
+    p_e:Edge
+    for p_id, p_e in edge_for_pokemon.items():
+        src_id = p_e.get_src()
+        dest_id = p_e.get_dest()
+        # if not pokemon_is_alocated.get((src_id,'-',dest_id)):
+            # pokemon_is_alocated[(src_id, '-', dest_id)] = True  #Todo: need this?
+        mission_list:[]
+        min_short_path = []
+        min_dest = float('inf')
+        at_end = False
+        for agent_id, mission_list in agents_mission.items():
+            if agent_id in agent_to_allocate:
+                agent = agents[agent_id]
+                if src_id in mission_list and dest_id in mission_list:
+                    break # the pokemon on list of agent   #Todo: check that only internal loop is break
+                elif src_id in mission_list and not dest_id in mission_list:
+                    if agent.src == dest_id:
+                        break
+                    mission_list.insert(mission_list.index(src_id)+1, dest_id)
+                    print(mission_list.index(src_id))
+                    print(len(mission_list) - 1)
+                    if mission_list.index(dest_id) != (len(mission_list)-1):
+                        mission_list.insert(mission_list.index(dest_id)+1, src_id)
+                    break
+
+                elif not src_id in mission_list and dest_id in mission_list:
+                    if agent.src == src_id:
+                        break
+                    mission_list.insert(mission_list.index(dest_id)+1, src_id)
+                    if mission_list.index(src_id) != (len(mission_list)- 1):
+                        mission_list.insert(mission_list.index(src_id)+1, dest_id)
+                    break
+
+                else:   # if not in list of mission
+                    temp_d, temp_path = alg.shortest_path(mission_list[-1], src_id)   #Todo: mission_list[-1] is the last one ?
+                    temp_d = temp_d * agent.speed
+                    if temp_d < min_dest:
+                        min_dest = temp_d
+                        min_short_path = temp_path
+                        min_agent = agent.id
+                    at_end = True
+
+        if at_end:
+            min_short_path.pop(0)
+            min_short_path.append(dest_id)
+            agents_mission[min_agent] = agents_mission[min_agent]+min_short_path
+    print(agents_mission)
+    return agents_mission
+
 
 
 def agent_alocate_calculator_update_multi(agents:{}, agents_mission:{}, edge_for_pokemon:{} , alg:GraphAlgo, agent_ids):
@@ -176,63 +176,62 @@ def agent_alocate_calculator_update_multi(agents:{}, agents_mission:{}, edge_for
 
     # for agent_id, mission_list in agents_mission.items():
     #     first=2
-    #     delete = []
     #     for m in mission_list:
     #         if first == 0:
-    #             delete.append(mission_list.index(m))
+    #             del mission_list[mission_list.index(m)]
     #         else:
     #             first =first-1
-    #     for i in delete:
-    #         del mission_list[delete.pop(0)]
-    at_end = False
+
     for agent_id, mission_list in agents_mission.items():
         if agent_id in agent_ids and len(mission_list) < 2:
             agent = agents[agent_id]
-            if len(edge_for_pokemon) == 0:
-                print("***************************************")
-                print(pokemons)
             min_dest = float('inf')
+            min_short_path = []
+            at_end = False
 
             for p_id, p_e in edge_for_pokemon.items():
                 src_id = p_e.get_src()
                 dest_id = p_e.get_dest()
                 mission_list: []
-                min_short_path = []
                 at_end = False
+                not_allocate = True
 
-                if not edge_pokemon_value.get((src_id, '-', dest_id)):   #if pok not allocated
+                if not pokemon_is_alocated.get((src_id,'-',dest_id)):   #if pok not allocated
 
+                    for agent_id_in, mission_list_in in agents_mission.items():
+                        if agent_id_in != agent_id and src_id in mission_list_in and dest_id in mission_list_in and mission_list_in.index(src_id) == mission_list_in.index(dest_id)-1:
+                            not_allocate = False
+                            break
 
-                    if src_id in mission_list and dest_id in mission_list:
-                        edge_pokemon_value[(src_id, '-', dest_id)] = True
+                    if  not_allocate and src_id in mission_list and dest_id in mission_list:
+                        pokemon_is_alocated[(src_id, '-', dest_id)] = True
                         break # the pokemon on list of agent   #Todo: check that only internal loop is break
-                    elif src_id in mission_list and not dest_id in mission_list:
+                    elif not_allocate and src_id in mission_list and not dest_id in mission_list:
                         if agent.src == dest_id:
-                            edge_pokemon_value[(src_id, '-', dest_id)] = True
+                            pokemon_is_alocated[(src_id, '-', dest_id)] = True
                             break
                         mission_list.insert(mission_list.index(src_id)+1, dest_id)
                         print(mission_list.index(src_id))
                         print(len(mission_list) - 1)
                         if mission_list.index(dest_id) != (len(mission_list)-1):
                             mission_list.insert(mission_list.index(dest_id)+1, src_id)
-                        edge_pokemon_value[(src_id, '-', dest_id)] = True
+                        pokemon_is_alocated[(src_id, '-', dest_id)] = True
                         break
 
-                    elif not src_id in mission_list and dest_id in mission_list:
+                    elif not_allocate and not src_id in mission_list and dest_id in mission_list:
                         if agent.src == src_id:
-                            edge_pokemon_value[(src_id, '-', dest_id)] = True
+                            pokemon_is_alocated[(src_id, '-', dest_id)] = True
                             break
                         mission_list.insert(mission_list.index(dest_id)+1, src_id)
                         if mission_list.index(src_id) != (len(mission_list)- 1):
                             mission_list.insert(mission_list.index(src_id)+1, dest_id)
-                        edge_pokemon_value[(src_id, '-', dest_id)] = True
+                        pokemon_is_alocated[(src_id, '-', dest_id)] = True
                         break
 
-                    else:   # if not in list of mission
-                        temp_d, temp_path = alg.shortest_path(mission_list[-1], src_id)   #Todo: mission_list[-1] is the last one ?
+                    elif not_allocate:  # if not in list of mission
+                        temp_d, temp_path = alg.shortest_path(mission_list[0], src_id)   #Todo: mission_list[-1] is the last one ?
                         # p = [p for p in pokemons if p.id==p_id]
-                        p = next(n for n in pokemons if n.id == p_id)
-                        temp_d = (temp_d * agent.value * agent.speed)/p.value
+                        temp_d = (temp_d * (agent.value)* agent.speed)
                         if temp_d < min_dest:
                             min_dest = temp_d
                             min_short_path = temp_path
@@ -243,10 +242,31 @@ def agent_alocate_calculator_update_multi(agents:{}, agents_mission:{}, edge_for
                         at_end = True
 
             if at_end:
-                min_short_path.pop(0)
-                # min_short_path.append(dest_id)
-                edge_pokemon_value[(min_src_id, '-', min_dest_id)] = True
+                start = min_short_path.pop(0)   #pop -> mission_list[0]
+                pokemon_is_alocated[(min_src_id, '-', min_dest_id)] = True
+                # agents_target[agent_id] = (src_id, dest_id, p.value)
+                agents_mission[agent.id] = agents_mission[agent.id][agents_mission[agent.id].index(start):]
                 agents_mission[agent.id] = agents_mission[agent.id]+min_short_path
+
+            #         else:   # if not in list of mission
+            #             temp_d, temp_path = alg.shortest_path(mission_list[-1], src_id)   #Todo: mission_list[-1] is the last one ?
+            #             # p = [p for p in pokemons if p.id==p_id]
+            #             p = next(n for n in pokemons if n.id == p_id)
+            #             temp_d = (temp_d * agent.value * agent.speed)/p.value
+            #             if temp_d < min_dest:
+            #                 min_dest = temp_d
+            #                 min_short_path = temp_path
+            #                 min_short_path.append(dest_id)
+            #                 min_agent = agent.id
+            #                 min_src_id = src_id
+            #                 min_dest_id = dest_id
+            #             at_end = True
+            #
+            # if at_end:
+            #     min_short_path.pop(0)
+            #     # min_short_path.append(dest_id)
+            #     pokemon_is_alocated[(min_src_id, '-', min_dest_id)] = True
+            #     agents_mission[agent.id] = agents_mission[agent.id]+min_short_path
     print(agents_mission)
     return agents_mission
 
@@ -344,15 +364,13 @@ main_menu.add.button('STOP And Exit (Double-tap)', client.stop_connection)  # Ad
 
 
 
-
+# init graph:
+graph_json = client.get_graph()
 
 FONT = pygame.font.SysFont('comicsans', 18, bold=True)
 FONT_in = pygame.font.SysFont('comicsans', 13, bold=True)
 # load the json string into SimpleNamespace Object
 
-
-# init graph:
-graph_json = client.get_graph()
 graph = json.loads(
     graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
 
@@ -402,11 +420,11 @@ for p in pokemons:
 
 
 edge_for_pokemon  = edge_for_pokemon_calculator(pokemons, alg)
-global edge_pokemon_value
-edge_pokemon_value = {}
+global pokemon_is_alocated
+pokemon_is_alocated = {}
 e:Edge
 for e in edge_for_pokemon.values():
-    edge_pokemon_value[(e.get_src(), '-', e.get_dest())] = False
+    pokemon_is_alocated[(e.get_src(),'-',e.get_dest())] = False
 
 
 
@@ -478,55 +496,10 @@ while client.is_running() == 'true':
     current_menu = main_menu.get_current()
     if current_menu.get_title() != 'Main Menu' or not main_menu.is_enabled():
 
-        image = pygame.image.load(r'pocemon.jpg ')
-        image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
+        # image = pygame.image.load(r'pocemon.jpg ')
+        # image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
         # copying the image surface object to the display surface object at (0, 0) coordinate.
-        screen.blit(image, (0, 0))
-
-        # check events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit(0)
-            if event.type == pygame.VIDEORESIZE:
-                # re-init graph, for case the size of screen change:
-                alg = GraphAlgo()
-                graph_json = client.get_graph()
-                graph = json.loads(
-                    graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
-                for n in graph.Nodes:
-                    x, y, _ = n.pos.split(',')
-                    n.pos = SimpleNamespace(x=float(x), y=float(y))
-                    n.pos = SimpleNamespace(x=my_scale(float(n.pos.x), x=True), y=my_scale(float(n.pos.y), y=True))
-                    alg.get_graph().add_node(id_n, (n.pos.x, n.pos.y))
-                    id_n = n.id
-                for e in graph.Edges:
-                    alg.get_graph().add_edge(e.src, e.dest, e.w)
-
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE and \
-                        current_menu.get_title() == 'Main Menu':
-                    main_menu.toggle()
-
-        if main_menu.is_enabled():
-            main_menu.mainloop(screen)
-            # main_menu.draw(screen)
-            # main_menu.update(pygame.event.get())
-
-        # pygame.display.flip()
-        # refresh surface
         # screen.blit(image, (0, 0))
-        screen.fill(Color(0, 134, 139))
-
-
-
-
-
-
-
-
-
-
         pokemons = json.loads(client.get_pokemons(),
                               object_hook=lambda d: SimpleNamespace(**d)).Pokemons
         pokemons = [p.Pokemon for p in pokemons]
@@ -539,7 +512,7 @@ while client.is_running() == 'true':
             p_id = p_id + 1
         edge_for_pokemon:{} = edge_for_pokemon_calculator(pokemons, alg)
         for e in edge_for_pokemon.values():
-            edge_pokemon_value[(e.get_src(), '-', e.get_dest())] = False
+            pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
             # is_in = False
             # for agent_id, mission_list in agents_mission.items():
             #     if e.get_src() in mission_list and e.get_dest() in mission_list:
@@ -555,20 +528,25 @@ while client.is_running() == 'true':
             a.pos = SimpleNamespace(x=my_scale(
                 float(x), x=True), y=my_scale(float(y), y=True))
             agents[a.id] = a
+        # check events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit(0)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE and \
+                        current_menu.get_title() == 'Main Menu':
+                    main_menu.toggle()
 
+        if main_menu.is_enabled():
+            main_menu.mainloop(screen)
+            # main_menu.draw(screen)
+            # main_menu.update(pygame.event.get())
 
-
-
-
-
-
-
-
-
-
-
-
-
+        # pygame.display.flip()
+        # refresh surface
+        # screen.blit(image, (0, 0))
+        screen.fill(Color(0,134,139))
 
         # drow text
         inf = json.loads(client.get_info(),
@@ -601,8 +579,6 @@ while client.is_running() == 'true':
             # dest_y = my_scale(dest.pos.y, y=True)
 
             # draw the line
-            # pygame.draw.line(screen, Color(61, 72, 126),
-            #                  (my_scale(src.pos.x, x=True), my_scale(src.pos.y, y=True)), (my_scale(dest.pos.x,x=True), my_scale(dest.pos.y,y=True)))
             pygame.draw.line(screen, Color(61, 72, 126),
                              (src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y))
             arrow((src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y), 23, 5, color=(61, 72, 126))
@@ -630,7 +606,7 @@ while client.is_running() == 'true':
             pygame.draw.circle(screen, Color(122, 61, 23),
                                (int(agent.pos.x), int(agent.pos.y)), 10)
             # draw the agent id
-            val_srf = FONT_in.render(str(int(agent.value)), True, Color(0, 0, 0))
+            val_srf = FONT_in.render((str(int(agent.id))), True, Color(0, 0, 0))
             rect = val_srf.get_rect(center=((int(agent.pos.x), int(agent.pos.y))))
             screen.blit(val_srf, rect)
         # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons (currently they are marked in the same way).
@@ -670,8 +646,8 @@ while client.is_running() == 'true':
                     # next_node = (agent.src - 1) % len(graph.Nodes)
                     client.choose_next_edge(
                         '{"agent_id":'+str(agent.id)+', "next_node_id":'+str(next_node)+'}')
-                    # ttl = client.time_to_end()
-                    # print(ttl, client.get_info())
+                    ttl = client.time_to_end()
+                    print(ttl, client.get_info())
 
 
         if count_of_change==0 and inf.moves/(time.time()-time_from_start)<10:
@@ -682,7 +658,6 @@ while client.is_running() == 'true':
         screen.blit(image, (0, 0))
     # print(time.time()-time_from_start)
 # game over:
-
 
 
 
