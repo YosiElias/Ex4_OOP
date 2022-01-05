@@ -2,23 +2,17 @@ from types import SimpleNamespace
 
 from MVC_Algo import MainAlgo
 from Digraph import *
-from client import Client
-import json
 from pygame import gfxdraw
 import pygame
 from pygame import *
 
 from GraphAlgo import GraphAlgo
-import matplotlib.pyplot as plt
+
 
 import time
 import pygame_menu
-# from pygame_menu.examples import create_example_window
 import math
-# import tkinter as tk
-# from tkinter import filedialog
-# from tkinter import END
-# from tkinter import messagebox
+
 
 
 #########################################################################################################
@@ -279,10 +273,7 @@ WIDTH, HEIGHT = 1080, 720
 # FONT=pygame.font.SysFont('comicsans',20)
 # FONT_w=pygame.font.SysFont('comicsans',42)
 
-# default port
-# PORT = 6666
-# server host (default localhost 127.0.0.1)
-# HOST = '127.0.0.1'
+
 pygame.init()
 # from pygame_menu.examples import create_example_window
 screen = display.set_mode((WIDTH, HEIGHT), depth=32, flags=RESIZABLE)
@@ -308,8 +299,6 @@ for n in graph.Nodes:
     n.pos.y = my_scale(n.pos.y, y=True)
 
 
-# client = Client()
-# client.start_connection(HOST, PORT)
 
 #############################################################################
 #                              pygame_menu                                  #
@@ -326,7 +315,7 @@ about_theme.widget_font = pygame_menu.font.FONT_NEVIS
 about_theme.title_font = pygame_menu.font.FONT_8BIT
 about_theme.title_offset = (5, -2)
 about_theme.widget_offset = (0, 0.14)
-#
+
 # def exit():
 #     # client.stop_connection()
 #     pygame_menu.events.EXIT()
@@ -348,7 +337,6 @@ m = "Assignment 3: The Pokemon game\n" \
 
 
 about_menu.add.label(m, margin=(0, 0))
-# about_menu.add.label('')
 about_menu.add.button('Return to Menu', pygame_menu.events.BACK)
 
 # file
@@ -376,127 +364,12 @@ main_menu.add.button('STOP And Exit (Double-tap)', main_algo._client.stop_connec
 
 
 
-# # init graph:
-# graph_json = client.get_graph()
-#
 FONT = pygame.font.SysFont('comicsans', 18, bold=True)
 FONT_in = pygame.font.SysFont('comicsans', 13, bold=True)
-# # load the json string into SimpleNamespace Object
-#
-# graph = json.loads(
-#     graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
-#
-# alg = GraphAlgo()
-#
-# for n in graph.Nodes:
-#     x, y, _ = n.pos.split(',')
-#     n.pos = SimpleNamespace(x=float(x), y=float(y))
-#     id_n = n.id
-#     # alg.get_graph().add_node(id_n, n.pos)
-#
-#
-# # get data proportions
-# min_x = min(list(graph.Nodes), key=lambda n: n.pos.x).pos.x
-# min_y = min(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
-# max_x = max(list(graph.Nodes), key=lambda n: n.pos.x).pos.x
-# max_y = max(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
-#
-#
-# for n in graph.Nodes:
-#     n.pos = SimpleNamespace(x= my_scale(float(n.pos.x), x=True), y= my_scale(float(n.pos.y), y=True))
-#     id_n = n.id
-#     alg.get_graph().add_node(id_n, (n.pos.x, n.pos.y))
-#     print('\nnode_scaled: ',alg.get_graph().getNode(id_n).get_location())
-#
-# for e in graph.Edges:
-#     src_e = e.src
-#     dest_e= e.dest
-#     w_e = e.w
-#     alg.get_graph().add_edge(e.src, e.dest, e.w)
-# print('\nedges: ',alg.get_graph()._Edges,'\n\n')
-#
-#
-#
-# # pokemons = client.get_pokemons()
-# # pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
-# global pokemons
-# pokemons = json.loads(client.get_pokemons(),
-#                           object_hook=lambda d: SimpleNamespace(**d)).Pokemons
-# pokemons = [p.Pokemon for p in pokemons]
-# p_id = 0
-# for p in pokemons:
-#     x, y, _ = p.pos.split(',')
-#     p.pos = SimpleNamespace(x=my_scale(float(x), x=True), y=my_scale(float(y), y=True))
-#     p.id = p_id
-#     p_id = p_id +1
-#
-#
-# edge_for_pokemon  = edge_for_pokemon_calculator(pokemons, alg)
-# global pokemon_is_alocated
-# pokemon_is_alocated = {}
-# e:Edge
-# for e in edge_for_pokemon.values():
-#     pokemon_is_alocated[(e.get_src(),'-',e.get_dest())] = False
-#
-#
-#
-# # graph_json = client.get_graph()
-# #
-# FONT = pygame.font.SysFont('Arial', 20, bold=True)
-# # # load the json string into SimpleNamespace Object
-# #
-# # graph = json.loads(
-# #     graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
-# #
-# # for n in graph.Nodes:
-# #     x, y, _ = n.pos.split(',')
-# #     n.pos = SimpleNamespace(x=float(x), y=float(y))
-# #
-# #
-# #
-# #  # get data proportions
-# # min_x = min(list(graph.Nodes), key=lambda n: n.pos.x).pos.x
-# # min_y = min(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
-# # max_x = max(list(graph.Nodes), key=lambda n: n.pos.x).pos.x
-# # max_y = max(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
-# #
-# #
-#
-#
-#
-# # # decorate scale with the correct values
-# #
-# # def my_scale(data, x=False, y=False):
-# #     if x:
-# #         return scale(data, 50, screen.get_width() - 50, min_x, max_x)
-# #     if y:
-# #         return scale(data, 50, screen.get_height()-50, min_y, max_y)
 
 
 radius = 15
-#
-# global agents_mission
-# agents_mission = {}
-#
-#
-# pokemons_is_alcated = [p for p in edge_for_pokemon.values()]
-# cuont_agent = 0
-# ag_sucses = 'true'
-# while ag_sucses == 'true':
-#     if len(pokemons_is_alcated) != 0:
-#         start_node = pokemons_is_alcated.pop().get_src()
-#         ag_str = "{}\"id\":{}{}".format('{', start_node, '}')
-#     else:
-#         start_node = cuont_agent
-#         ag_str = "{}\"id\":{}{}".format('{', start_node, '}')
-#     ag_sucses =  client.add_agent(ag_str)
-#     if ag_sucses == 'true':
-#         agents_mission[cuont_agent] = [start_node]
-#         cuont_agent = cuont_agent + 1
-#
-#
-# # this commnad starts the server - the game is running now
-# client.start()
+
 # time_from_start = time.time()
 
 """
@@ -517,9 +390,6 @@ while main_algo.is_running():
         # image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
         # copying the image surface object to the display surface object at (0, 0) coordinate.
         # screen.blit(image, (0, 0))
-        # pokemons = json.loads(client.get_pokemons(),
-        #                       object_hook=lambda d: SimpleNamespace(**d)).Pokemons
-        # pokemons = [p.Pokemon for p in pokemons]
         pokemons = main_algo.get_update_pocemon()
         p_id = 0
         for p in pokemons:
@@ -527,18 +397,6 @@ while main_algo.is_running():
                 float(p.pos.x), x=True), y=my_scale(float(p.pos.y), y=True))
             p.id = p_id
             p_id = p_id + 1
-        # edge_for_pokemon:{} = edge_for_pokemon_calculator(pokemons, alg)
-        # for e in edge_for_pokemon.values():
-        #     pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
-        #     # is_in = False
-        #     # for agent_id, mission_list in agents_mission.items():
-        #     #     if e.get_src() in mission_list and e.get_dest() in mission_list:
-        #     #         is_in = True
-        #     # if not is_in:
-
-        # agents = json.loads(client.get_agents(),
-        #                     object_hook=lambda d: SimpleNamespace(**d)).Agents
-        # agents_list = [agent.Agent for agent in agents]
         agents:{} = main_algo.get_update_agent()
         for a in agents.values():
             a.pos = SimpleNamespace(x=my_scale(
@@ -572,8 +430,6 @@ while main_algo.is_running():
         screen.fill(Color(0,134,139))
 
         # drow text
-        # inf = json.loads(client.get_info(),
-        #                     object_hook=lambda d: SimpleNamespace(**d)).GameServer
         inf = main_algo.get_inf()
         text = FONT.render("Moves: {}".format(inf.moves, (float())), True, (0, 0, 0))
         screen.blit(text, (105, 25))
@@ -588,6 +444,7 @@ while main_algo.is_running():
         screen.blit(esc_text, (25, 2))
         text = FONT.render("Level: {}".format(inf.game_level), True, (255, 255, 255))
         screen.blit(text, (690, 680))
+
         # init graph to draw:
         # graph = main_algo.get_graph_to_draw()
         # # scale nodes
@@ -605,8 +462,7 @@ while main_algo.is_running():
             pygame.draw.line(screen, Color(61, 72, 126),
                              (src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y))
             arrow((src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y), 23, 5, color=(61, 72, 126))
-            # pygame.draw.line(screen, Color(61, 72, 126),
-            #                  (src_x, src_y), (dest_x, dest_y))
+
 
         # draw nodes
         for n in graph.Nodes:
@@ -652,33 +508,7 @@ while main_algo.is_running():
         clock.tick(600)
 
         main_algo.nex_step()
-        # # choose next edge
-        # agent_to_allocate = []
-        # for agent in agents.values():
-        #     if agent.dest == -1:
-        #         agent_to_allocate.append(agent.id)
-        # count_of_change = 0
-        # if len(agent_to_allocate) > 0:
-        #     agent_alocate_calculator_update_multi(agents, agents_mission, edge_for_pokemon, alg, agent_to_allocate)
-        #     for agent in agents.values():
-        #         if agent.dest == -1:
-        #             count_of_change = count_of_change + 1
-        #             if agent.src==agents_mission[agent.id][0] and len(agents_mission[agent.id]) > 1:
-        #                 agents_mission[agent.id].pop(0)
-        #             next_node = agents_mission[agent.id][0]
-        #             # if len(agents_mission[agent.id]) > 1:
-        #             #     next_node = agents_mission[agent.id].pop(0)
-        #             # else:
-        #             #     next_node = agents_mission[agent.id][0]
-        #             # next_node = (agent.src - 1) % len(graph.Nodes)
-        #             client.choose_next_edge(
-        #                 '{"agent_id":'+str(agent.id)+', "next_node_id":'+str(next_node)+'}')
-        #             ttl = client.time_to_end()
-        #             print(ttl, client.get_info())
-        #
-        #
-        # if inf.moves/(time.time()-time_from_start)<10:  #count_of_change==0 and
-        #     client.move()
+
     else:
         # Background color if the menu is enabled and graph is hidden
         # screen.fill((40, 0, 40))

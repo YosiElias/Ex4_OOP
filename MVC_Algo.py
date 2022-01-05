@@ -1,23 +1,12 @@
 from types import SimpleNamespace
-
 from Digraph import *
 from client import Client
 import json
-from pygame import gfxdraw
 import pygame
 from pygame import *
-
 from GraphAlgo import GraphAlgo
-import matplotlib.pyplot as plt
-
 import time
-import pygame_menu
-# from pygame_menu.examples import create_example_window
-import math
-# import tkinter as tk
-# from tkinter import filedialog
-# from tkinter import END
-# from tkinter import messagebox
+
 
 
 #########################################################################################################
@@ -25,19 +14,10 @@ import math
 #########################################################################################################
 
 
-# init pygame
-WIDTH, HEIGHT = 1080, 720
-# pygame.font.init()
-# FONT=pygame.font.SysFont('comicsans',20)
-# FONT_w=pygame.font.SysFont('comicsans',42)
-
 # default port
 PORT = 6666
 # server host (default localhost 127.0.0.1)
 HOST = '127.0.0.1'
-pygame.init()
-
-# screen = create_example_window('MY GRAPH', (WIDTH, HEIGHT))#(, depth=32, flags=RESIZABLE)
 clock = pygame.time.Clock()
 time_game = pygame.time.Clock()
 
@@ -59,7 +39,6 @@ class MainAlgo:
         for n in self._graph.Nodes:
             x, y, _ = n.pos.split(',')
             n.pos = SimpleNamespace(x=float(x), y=float(y))
-            id_n = n.id
 
         # get data proportions
         self._min_x = min(list(self._graph.Nodes), key=lambda n: n.pos.x).pos.x
@@ -74,9 +53,6 @@ class MainAlgo:
             print('\nnode_scaled: ', self._alg.get_graph().getNode(id_n).get_location())
 
         for e in self._graph.Edges:
-            src_e = e.src
-            dest_e = e.dest
-            w_e = e.w
             self._alg.get_graph().add_edge(e.src, e.dest, e.w)
         print('\nedges: ', self._alg.get_graph()._Edges, '\n\n')
 
@@ -95,8 +71,6 @@ class MainAlgo:
         e: Edge
         for e in self._edge_for_pokemon.values():
             self._pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
-
-        radius = 15
 
         self._agents_mission = {}
 
@@ -175,7 +149,6 @@ class MainAlgo:
                     #     next_node = agents_mission[agent.id].pop(0)
                     # else:
                     #     next_node = agents_mission[agent.id][0]
-                    # next_node = (agent.src - 1) % len(graph.Nodes)
                     self._client.choose_next_edge(
                         '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
                     ttl = self._client.time_to_end()
@@ -192,12 +165,13 @@ class MainAlgo:
             return False
 
     def get_graph_to_draw(self):
+        """
+         # load the json string into SimpleNamespace Object
+        :return: SimpleNamespace Object of graph
+        """
         graph_json = self._client.get_graph()
-
-        # load the json string into SimpleNamespace Object
         self._graph = json.loads(
             graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
-
         for n in self._graph.Nodes:
             x, y, _ = n.pos.split(',')
             n.pos = SimpleNamespace(x=float(x), y=float(y))
