@@ -5,7 +5,7 @@ We took the graph implementation from our [prevoius assignment](https://github.c
 For more information: Assignment Ex4
 [https://github.com/roee-tal/EX3-OOP](https://github.com/roee-tal/EX3-OOP)
 
-[gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
+![gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
 
 
 
