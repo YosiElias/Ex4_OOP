@@ -1,14 +1,10 @@
 from types import SimpleNamespace
-
 from MVC_Algo import MainAlgo
 from Digraph import *
 from pygame import gfxdraw
 import pygame
 from pygame import *
-
 from GraphAlgo import GraphAlgo
-
-
 import time
 import pygame_menu
 import math
@@ -41,39 +37,39 @@ def arrow(start, end, d, h, color):
 
     # pygame.draw.line(surface, color, start, end, width=3)
     pygame.draw.polygon(screen, color, points)
-
-def edge_for_pokemon_calculator(pokemons, alg:GraphAlgo):
-    """
-    find the edge the pokemon on it
-    *Note: for any run of this function the pokemon id is
-    different, so this function run only with gating pokemons from client and "id's" theme
-    :param pokemons: list of pokemons
-    :return: dict of edge for any pokemon in time of this function
-    """
-    ans = {}
-    for p in pokemons:
-      x_p, y_p = p.pos.x, p.pos.y
-      e:Edge
-      for e in alg.get_graph()._Edges.values():
-          src = e.get_src()
-          n_src = alg.get_graph().getNode(e.get_src()).get_location()
-          n_dest = alg.get_graph().getNode(e.get_dest()).get_location()
-          if n_dest[0] == n_src[0]: # x1==x2
-              if min(n_dest[1],n_src[1]) <= y_p <= max(n_dest[1] ,n_src[1]): # checking condition for `p` to be on line (between the points)
-                  if (p.type > 0 and e.get_src() < e.get_dest()) or (p.type < 0 and e.get_src() > e.get_dest()):
-                      ans[p.id] = e
-                      break
-          else:
-            slope = (n_dest[1] - n_src[1]) / (n_dest[0] - n_src[0]) # calculating slope of two points of e
-            # if e.get_src()==8 and e.get_dest() == 9:
-            #     print(y_p - n_src[1])
-            #     print(slope * (x_p - n_src[0]))
-            if abs((y_p - n_src[1]) - (slope * (x_p - n_src[0]))) <= 0.00000001:
-                if (p.type > 0  and e.get_src() < e.get_dest()) or (p.type < 0  and e.get_src() > e.get_dest()):
-                    ans[p.id] = e
-                    break
-    # print('\n\nedge_for_pokemon: ',ans,'\n')
-    return ans
+#
+# def edge_for_pokemon_calculator(pokemons, alg:GraphAlgo):
+#     """
+#     find the edge the pokemon on it
+#     *Note: for any run of this function the pokemon id is
+#     different, so this function run only with gating pokemons from client and "id's" theme
+#     :param pokemons: list of pokemons
+#     :return: dict of edge for any pokemon in time of this function
+#     """
+#     ans = {}
+#     for p in pokemons:
+#       x_p, y_p = p.pos.x, p.pos.y
+#       e:Edge
+#       for e in alg.get_graph()._Edges.values():
+#           src = e.get_src()
+#           n_src = alg.get_graph().getNode(e.get_src()).get_location()
+#           n_dest = alg.get_graph().getNode(e.get_dest()).get_location()
+#           if n_dest[0] == n_src[0]: # x1==x2
+#               if min(n_dest[1],n_src[1]) <= y_p <= max(n_dest[1] ,n_src[1]): # checking condition for `p` to be on line (between the points)
+#                   if (p.type > 0 and e.get_src() < e.get_dest()) or (p.type < 0 and e.get_src() > e.get_dest()):
+#                       ans[p.id] = e
+#                       break
+#           else:
+#             slope = (n_dest[1] - n_src[1]) / (n_dest[0] - n_src[0]) # calculating slope of two points of e
+#             # if e.get_src()==8 and e.get_dest() == 9:
+#             #     print(y_p - n_src[1])
+#             #     print(slope * (x_p - n_src[0]))
+#             if abs((y_p - n_src[1]) - (slope * (x_p - n_src[0]))) <= 0.00000001:
+#                 if (p.type > 0  and e.get_src() < e.get_dest()) or (p.type < 0  and e.get_src() > e.get_dest()):
+#                     ans[p.id] = e
+#                     break
+#     # print('\n\nedge_for_pokemon: ',ans,'\n')
+#     return ans
 
 # decorate scale with the correct values
 def my_scale(data, x=False, y=False):
@@ -381,139 +377,148 @@ The GUI and the "algo" are mixed - refactoring using MVC design pattern is requi
 main_algo.start_game()
 time_from_start = time.time()
 
+try:
+    while main_algo.is_running():
+        current_menu = main_menu.get_current()
+        if current_menu.get_title() != 'Main Menu' or not main_menu.is_enabled():
 
-while main_algo.is_running():
-    current_menu = main_menu.get_current()
-    if current_menu.get_title() != 'Main Menu' or not main_menu.is_enabled():
+            # image = pygame.image.load(r'pocemon.jpg ')
+            # image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
+            # copying the image surface object to the display surface object at (0, 0) coordinate.
+            # screen.blit(image, (0, 0))
+            pokemons = main_algo.get_update_pocemon()
+            p_id = 0
+            for p in pokemons:
+                p.pos = SimpleNamespace(x=my_scale(
+                    float(p.pos.x), x=True), y=my_scale(float(p.pos.y), y=True))
+                p.id = p_id
+                p_id = p_id + 1
+            agents:{} = main_algo.get_update_agent()
+            for a in agents.values():
+                a.pos = SimpleNamespace(x=my_scale(
+                    float(a.pos.x), x=True), y=my_scale(float(a.pos.y), y=True))
 
-        # image = pygame.image.load(r'pocemon.jpg ')
-        # image = pygame.transform.scale(image, (screen.get_width(), screen.get_height()))
-        # copying the image surface object to the display surface object at (0, 0) coordinate.
-        # screen.blit(image, (0, 0))
-        pokemons = main_algo.get_update_pocemon()
-        p_id = 0
-        for p in pokemons:
-            p.pos = SimpleNamespace(x=my_scale(
-                float(p.pos.x), x=True), y=my_scale(float(p.pos.y), y=True))
-            p.id = p_id
-            p_id = p_id + 1
-        agents:{} = main_algo.get_update_agent()
-        for a in agents.values():
-            a.pos = SimpleNamespace(x=my_scale(
-                float(a.pos.x), x=True), y=my_scale(float(a.pos.y), y=True))
+            # check events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit(0)
+                if event.type == pygame.VIDEORESIZE:
+                    # re-init graph, for case the size of screen change:
+                    graph = main_algo.get_graph_to_draw()
+                    # scale nodes
+                    for n in graph.Nodes:
+                        n.pos.x = my_scale(n.pos.x, x=True)
+                        n.pos.y = my_scale(n.pos.y, y=True)
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE and \
+                            current_menu.get_title() == 'Main Menu':
+                        main_menu.toggle()
 
-        # check events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit(0)
-            if event.type == pygame.VIDEORESIZE:
-                # re-init graph, for case the size of screen change:
-                graph = main_algo.get_graph_to_draw()
-                # scale nodes
-                for n in graph.Nodes:
-                    n.pos.x = my_scale(n.pos.x, x=True)
-                    n.pos.y = my_scale(n.pos.y, y=True)
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE and \
-                        current_menu.get_title() == 'Main Menu':
-                    main_menu.toggle()
+            if main_menu.is_enabled():
+                main_menu.mainloop(screen)
+                # main_menu.draw(screen)
+                # main_menu.update(pygame.event.get())
 
-        if main_menu.is_enabled():
-            main_menu.mainloop(screen)
-            # main_menu.draw(screen)
-            # main_menu.update(pygame.event.get())
+            # pygame.display.flip()
+            # refresh surface
+            # screen.blit(image, (0, 0))
+            screen.fill(Color(0,134,139))
 
-        # pygame.display.flip()
-        # refresh surface
-        # screen.blit(image, (0, 0))
-        screen.fill(Color(0,134,139))
+            # drow text
+            inf = main_algo.get_inf()
+            text = FONT.render("Moves: {}".format(inf.moves, (float())), True, (0, 0, 0))
+            screen.blit(text, (105, 25))
+            # if inf.moves != 0:
+            text = FONT.render("Moves/second: {:.1f}".format(inf.moves/(time.time() - time_from_start)), True, (0, 0, 0))
+            screen.blit(text, (105, 45))
+            text = FONT.render("time: {:.1f}".format((time.time() - time_from_start)), True, (0, 0, 0))
+            screen.blit(text, (105, 65))
+            text = FONT.render("grade: {}".format(inf.grade), True, (0, 0, 0))
+            screen.blit(text, (105, 85))
+            esc_text = FONT_in.render("To get to the Main-Menu please press->\'esc\'", True, (0, 0, 0))
+            screen.blit(esc_text, (25, 2))
+            text = FONT.render("Level: {}".format(inf.game_level), True, (255, 255, 255))
+            screen.blit(text, (690, 680))
 
-        # drow text
-        inf = main_algo.get_inf()
-        text = FONT.render("Moves: {}".format(inf.moves, (float())), True, (0, 0, 0))
-        screen.blit(text, (105, 25))
-        # if inf.moves != 0:
-        text = FONT.render("Moves/second: {:.1f}".format(inf.moves/(time.time() - time_from_start)), True, (0, 0, 0))
-        screen.blit(text, (105, 45))
-        text = FONT.render("time: {:.1f}".format((time.time() - time_from_start)), True, (0, 0, 0))
-        screen.blit(text, (105, 65))
-        text = FONT.render("grade: {}".format(inf.grade), True, (0, 0, 0))
-        screen.blit(text, (105, 85))
-        esc_text = FONT_in.render("To get to the Main-Menu please press->\'esc\'", True, (0, 0, 0))
-        screen.blit(esc_text, (25, 2))
-        text = FONT.render("Level: {}".format(inf.game_level), True, (255, 255, 255))
-        screen.blit(text, (690, 680))
+            # init graph to draw:
+            # graph = main_algo.get_graph_to_draw()
+            # # scale nodes
+            # for n in graph.Nodes:
+            #     n.pos.x = my_scale(n.pos.x, x=True)
+            #     n.pos.y = my_scale(n.pos.y, y=True)
 
-        # init graph to draw:
-        # graph = main_algo.get_graph_to_draw()
-        # # scale nodes
-        # for n in graph.Nodes:
-        #     n.pos.x = my_scale(n.pos.x, x=True)
-        #     n.pos.y = my_scale(n.pos.y, y=True)
+            # draw edges
+            for e in graph.Edges:
+                # find the edge nodes
+                src = next(n for n in graph.Nodes if n.id == e.src)
+                dest = next(n for n in graph.Nodes if n.id == e.dest)
 
-        # draw edges
-        for e in graph.Edges:
-            # find the edge nodes
-            src = next(n for n in graph.Nodes if n.id == e.src)
-            dest = next(n for n in graph.Nodes if n.id == e.dest)
-
-            # draw the line
-            pygame.draw.line(screen, Color(61, 72, 126),
-                             (src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y))
-            arrow((src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y), 23, 5, color=(61, 72, 126))
-
-
-        # draw nodes
-        for n in graph.Nodes:
-            x = n.pos.x
-            y = n.pos.y
-
-            # its just to get a nice antialiased circle
-            gfxdraw.filled_circle(screen, int(x), int(y),
-                                  radius, Color(64, 80, 174))
-            gfxdraw.aacircle(screen, int(x), int(y),
-                             radius, Color(255, 255, 255))
-
-            # draw the node id
-            id_srf = FONT.render(str(n.id), True, Color(255, 255, 255))
-            rect = id_srf.get_rect(center=(x, y))
-            screen.blit(id_srf, rect)
-
-        # draw agents
-        for agent in agents.values():
-            pygame.draw.circle(screen, Color(122, 61, 23),
-                               (int(agent.pos.x), int(agent.pos.y)), 10)
-            # draw the agent id
-            val_srf = FONT_in.render((str(int(agent.id))), True, Color(0, 0, 0))
-            rect = val_srf.get_rect(center=((int(agent.pos.x), int(agent.pos.y))))
-            screen.blit(val_srf, rect)
-        # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons (currently they are marked in the same way).
-        for p in pokemons:
-            # edge_of_p:Edge = edge_for_pokemon.get(p.id)
-            if p.type > 0:
-                pygame.draw.circle(screen, Color(0, 255, 255), (int(p.pos.x), int(p.pos.y)), 10)
-            else:
-                pygame.draw.circle(screen, Color(255, 255, 0), (int(p.pos.x), int(p.pos.y)), 10)
-            # draw the pokemon value
-            val_srf = FONT_in.render(str(int(p.value)), True, Color(0, 0, 0))
-            rect = val_srf.get_rect(center=((int(p.pos.x), int(p.pos.y))))
-            screen.blit(val_srf, rect)
+                # draw the line
+                pygame.draw.line(screen, Color(61, 72, 126),
+                                 (src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y))
+                arrow((src.pos.x, src.pos.y), (dest.pos.x, dest.pos.y), 23, 5, color=(61, 72, 126))
 
 
-        # update screen changes
-        display.update()
+            # draw nodes
+            for n in graph.Nodes:
+                x = n.pos.x
+                y = n.pos.y
 
-        # refresh rate
-        clock.tick(600)
+                # its just to get a nice antialiased circle
+                gfxdraw.filled_circle(screen, int(x), int(y),
+                                      radius, Color(64, 80, 174))
+                gfxdraw.aacircle(screen, int(x), int(y),
+                                 radius, Color(255, 255, 255))
 
-        main_algo.nex_step()
+                # draw the node id
+                id_srf = FONT.render(str(n.id), True, Color(255, 255, 255))
+                rect = id_srf.get_rect(center=(x, y))
+                screen.blit(id_srf, rect)
 
-    else:
-        # Background color if the menu is enabled and graph is hidden
-        # screen.fill((40, 0, 40))
-        screen.blit(image, (0, 0))
-    # print(time.time()-time_from_start)
+            # draw agents
+            for agent in agents.values():
+                pygame.draw.circle(screen, Color(122, 61, 23),
+                                   (int(agent.pos.x), int(agent.pos.y)), 10)
+                # draw the agent id
+                val_srf = FONT_in.render((str(int(agent.id))), True, Color(0, 0, 0))
+                rect = val_srf.get_rect(center=((int(agent.pos.x), int(agent.pos.y))))
+                screen.blit(val_srf, rect)
+            # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons (currently they are marked in the same way).
+            for p in pokemons:
+                # edge_of_p:Edge = edge_for_pokemon.get(p.id)
+                if p.type > 0:
+                    pygame.draw.circle(screen, Color(0, 255, 255), (int(p.pos.x), int(p.pos.y)), 10)
+                else:
+                    pygame.draw.circle(screen, Color(255, 255, 0), (int(p.pos.x), int(p.pos.y)), 10)
+                # draw the pokemon value
+                val_srf = FONT_in.render(str(int(p.value)), True, Color(0, 0, 0))
+                rect = val_srf.get_rect(center=((int(p.pos.x), int(p.pos.y))))
+                screen.blit(val_srf, rect)
+
+
+            # update screen changes
+            display.update()
+
+            # refresh rate
+            clock.tick(600)
+
+            main_algo.nex_step()
+
+        else:
+            # Background color if the menu is enabled and graph is hidden
+            # screen.fill((40, 0, 40))
+            screen.blit(image, (0, 0))
+        # print(time.time()-time_from_start)
+except AttributeError:
+    if (main_algo.is_running()):
+        print("ERROR: game not over")
+except ConnectionResetError:
+    if (main_algo.is_running()):
+        print("ERROR: game not over")
+except OSError:
+    if (main_algo.is_running()):
+        print("ERROR: game not over")
 # game over:
 
 
