@@ -10,7 +10,18 @@ For more information: Assignment Ex4
 
 
 ## The algorithm
-The same algorithm works on both cases of one agent and more than one.
+* We took inspiration from our first elevator assignment and second elevator assignment, and used the algorithms we build in our first graph assignment and second graph assignment.
+* The same algorithm works on both cases of one agent and more than one, but let's separate the explanation into 2 parts:
+One agent:
+  1. Create an empty list that will hold the nodes that the agent has to go through
+  2. Iterate over all the pokemons: if there is pokemon on some edge that connected to node that the agent is there-take this pokemon. else - find the shortest path and              distance from each one to the agent.
+  3. Each time set only one pokemon to the agent(it will be the closest pokemon).
+
+In case of more than one agent:
+  * We created a dict of all the edges which saves if there is allocated pokemon on each edge, to avoid the case that 2 agents will go to the same pokemon.
+  * If agent were allocated to pokemon, the fitting place in the dict became true. Only when the agent got the pokemon - the place in the dict became false - which means we       can go there once again. 
+  * How do we know if the agent got the pokemon? because we have the pokemon list given from the server every time.
+  * The rest is the same as one agent case.
 
 
 ## Download and run
