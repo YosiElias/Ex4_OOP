@@ -3,10 +3,12 @@ This project is the final task in the course. In this assignment we get a graph,
 
 We took the graph implementation from our [prevoius assignment](https://github.com/roee-tal/EX3-OOP)
 
+
+![gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
+
 **Visit the [wiki](https://github.com/YosiElias/Ex4_OOP/wiki) for more information** 
 
 
-![gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
 
 
 ## Table of contents
