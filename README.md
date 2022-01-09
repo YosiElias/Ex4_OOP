@@ -3,18 +3,20 @@ This project is the final task in the course. In this assignment we get a graph,
 
 We took the graph implementation from our [prevoius assignment](https://github.com/roee-tal/EX3-OOP)
 
+**Visit the [wiki](https://github.com/YosiElias/Ex4_OOP/wiki) for more information** 
 
 
 ![gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
 
 
 ## Table of contents
-* [The algorithm](#Main-classes-planning)
+* [Main-classes-planning](#Main-classes-planning)
 * [The main algorithm](#The-main-algorithm)
 * [Download and run](#Download-and-run)
-* [Performances](#Performances)
-* [Visualization](#Visualization)
+* [Results](#Results)
 * [External info](#External-info)
+
+## Main class planning
 
 ## The main algorithm
 * We took inspiration from our first elevator assignment and second elevator assignment, and used the algorithms we build in our first graph assignment and second graph assignment.
@@ -39,6 +41,7 @@ In case of more than one agent:
 
 * Last open the project in Pycharm and run the **MVC_GUI file**.
 * To stop the run press double esc.
+
 **Please visit our wiki page for a short view of how the GUI looks like and how it works**
   
   
