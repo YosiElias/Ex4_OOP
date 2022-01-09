@@ -22,7 +22,14 @@ We took the graph implementation from our [prevoius assignment](https://github.c
 * [UML](#UML)
 
 ## Main class planning
-* 
+* We built our solution in the structure of MVC, we used the classes we wrote in the previous task for the purpose of using the ShortPath algorithm.
+In the MAIN_ALGO class we collect the data from the client and arrange it in such a way that the functions from the previous task can work with it.
+In addition from there we pass commands to the next steps in the game and update over time the GUI what to display on the screen.
+* In addition, out of this class runs in the GraphAlgo class the calculation of the fastest way for the next step in the game in the most optimal way.
+
+* It should be noted that according to the structure we created there is no direct connection between the GUI and the client and also between the GraphAlgo class and the client since the MAIN_ALGO class is responsible for the connection between them and thus it serves as a Controller, which connects the Model and the View.
+
+* In choosing the next step of the agents we took as many considerations as possible in order to make as good a decision as possible, among them - agent speed, Pokemon value, weighted distance, agent value and more.
 
 ## The main algorithm
 * Our idea was to allocate only one pokemon each iteration. We thought if we sort all the pokenoms in some way, the agent will miss closer pokemons, because pokemons always added. We saw the difference between those 2 attitudes in thee results. This way we got much better results.
