@@ -53,7 +53,7 @@ In case of more than one agent:
 
 ## Download and run
 
-* First clone the project.
+* First clone the project / download the release 
 * Next go to cmd were the project's folder is, and run the jar file like this: java -jar Ex4_Server_v0.0.jar __
   Instead of the underscore put a number between 0 and 15 (levels).
 
