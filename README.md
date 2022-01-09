@@ -31,7 +31,7 @@ In addition from there we pass commands to the next steps in the game and update
 
 * In choosing the next step of the agents we took as many considerations as possible in order to make as good a decision as possible, among them - agent speed, Pokemon value, weighted distance, agent value and more.
 
-![This is an image](https://github.com/YosiElias/Ex4_OOP/blob/master/imgs/im6.png)
+![This is an image](https://github.com/YosiElias/Ex4_OOP/blob/master/imgs/img6.png)
 
 ## The main algorithm
 * Our idea was to allocate only one pokemon each iteration. We thought if we sort all the pokenoms in some way, the agent will miss closer pokemons, because pokemons always added. We saw the difference between those 2 attitudes in thee results. This way we got much better results.
