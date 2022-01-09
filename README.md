@@ -1,4 +1,4 @@
-# Oop_Ex4 - the pokemon game
+# OOP_Ex4 - the pokemon game
 ![gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
 
 This project is the final task in the course. In this assignment we get a graph, a number of agents, and pokemons.
