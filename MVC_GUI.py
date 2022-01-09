@@ -366,13 +366,6 @@ FONT_in = pygame.font.SysFont('comicsans', 13, bold=True)
 
 radius = 15
 
-# time_from_start = time.time()
-
-"""
-The code below should be improved significantly:
-The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
-"""
-
 # this commnad starts the server - the game is running now
 main_algo.start_game()
 time_from_start = time.time()

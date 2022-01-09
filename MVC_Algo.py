@@ -25,9 +25,9 @@ time_game = pygame.time.Clock()
 class MainAlgo:
     def __init__(self, test:bool=False, g:GraphAlgo=None):
         if test:
-            self._pokemon_is_alocated = {}
+            self.pokemon_is_alocated = {}
             for e in g.get_graph()._Edges.values():
-                self._pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
+                self.pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
             return
         self._client = Client()
         self._client.start_connection(HOST, PORT)
@@ -72,10 +72,14 @@ class MainAlgo:
             p_id = p_id + 1
 
         self._edge_for_pokemon = self.edge_for_pokemon_calculator(self._pokemons, self._alg)
-        self._pokemon_is_alocated = {}
+        self.pokemon_is_alocated = {}
         e: Edge
         for e in self._edge_for_pokemon.values():
-            self._pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
+            self.pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
+        # self._pokemon_is_alocated = {}
+        # e: Edge
+        # for e in self._edge_for_pokemon.values():
+        #     self._pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
 
         self._agents_mission = {}
 
@@ -83,6 +87,7 @@ class MainAlgo:
         cuont_agent = 0
         ag_sucses = 'true'
         while ag_sucses == 'true':
+            self.resetN()   #self.pokemon_is_alocated, self._edge_for_pokemon
             if len(pokemons_is_alcated) != 0:
                 start_node = pokemons_is_alcated.pop().get_src()
                 ag_str = "{}\"id\":{}{}".format('{', start_node, '}')
@@ -117,10 +122,10 @@ class MainAlgo:
             p.id = p_id
             p_id = p_id + 1
         self._edge_for_pokemon = self.edge_for_pokemon_calculator(self._pokemons, self._alg)
-        self._pokemon_is_alocated = {}
+        self.pokemon_is_alocated = {}
         e: Edge
         for e in self._edge_for_pokemon.values():
-            self._pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
+            self.pokemon_is_alocated[(e.get_src(), '-', e.get_dest())] = False
         return self._pokemons
 
 
@@ -150,16 +155,16 @@ class MainAlgo:
                     if agent.src == self._agents_mission[agent.id][0] and len(self._agents_mission[agent.id]) > 1:
                         self._agents_mission[agent.id].pop(0)
                     next_node = self._agents_mission[agent.id][0]
-                    # if len(agents_mission[agent.id]) > 1:
-                    #     next_node = agents_mission[agent.id].pop(0)
+                    # if len(self._agents_mission[agent.id]) > 1:
+                    #     next_node = self._agents_mission[agent.id].pop(0)
                     # else:
-                    #     next_node = agents_mission[agent.id][0]
+                    #     next_node = self._agents_mission[agent.id][0]
                     self._client.choose_next_edge(
                         '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
                     ttl = self._client.time_to_end()
                     print(ttl, self._client.get_info())
 
-        if self._inf.moves / (time.time() - self._time_from_start) < 10:  # count_of_change==0 and
+        if self._inf.moves / (time.time() - self._time_from_start) < 9.7:  # count_of_change==0 and
             self._client.move()
 
     def is_running(self):
@@ -260,9 +265,8 @@ class MainAlgo:
                     at_end = False
                     not_allocate = True
 
-                    if True: #not self._pokemon_is_alocated.get((src_id, '-', dest_id)):  # if pok not allocated
-                    # if not self._pokemon_is_alocated.get((src_id, '-', dest_id)):  # if pok not allocated
-
+                    # if not main_algo._pokemon_is_alocated.get((src_id,'-',dest_id)):   #if pok not allocated
+                    if not self.pokemon_is_alocated.get((src_id, '-', dest_id)):
                         for agent_id_in, mission_list_in in agents_mission.items():
                             if agent_id_in != agent_id and src_id in mission_list_in and dest_id in mission_list_in and mission_list_in.index(
                                     src_id) == mission_list_in.index(dest_id) - 1:
@@ -270,28 +274,28 @@ class MainAlgo:
                                 break
 
                         if not_allocate and src_id in mission_list and dest_id in mission_list:
-                            self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                            self.pokemon_is_alocated[(src_id, '-', dest_id)] = True
                             break  # the pokemon on list of agent   #Todo: check that only internal loop is break
                         elif not_allocate and src_id in mission_list and not dest_id in mission_list:
                             if agent.src == dest_id:
-                                self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                                self.pokemon_is_alocated[(src_id, '-', dest_id)] = True
                                 break
                             mission_list.insert(mission_list.index(src_id) + 1, dest_id)
                             print(mission_list.index(src_id))
                             print(len(mission_list) - 1)
                             if mission_list.index(dest_id) != (len(mission_list) - 1):
                                 mission_list.insert(mission_list.index(dest_id) + 1, src_id)
-                            self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                            self.pokemon_is_alocated[(src_id, '-', dest_id)] = True
                             break
 
                         elif not_allocate and not src_id in mission_list and dest_id in mission_list:
                             if agent.src == src_id:
-                                self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                                self.pokemon_is_alocated[(src_id, '-', dest_id)] = True
                                 break
                             mission_list.insert(mission_list.index(dest_id) + 1, src_id)
                             if mission_list.index(src_id) != (len(mission_list) - 1):
                                 mission_list.insert(mission_list.index(src_id) + 1, dest_id)
-                            self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+                            self.pokemon_is_alocated[(src_id, '-', dest_id)] = True
                             break
 
                         elif not_allocate:  # if not in list of mission
@@ -310,7 +314,7 @@ class MainAlgo:
 
                 if at_end:
                     start = min_short_path.pop(0)  # pop -> mission_list[0]
-                    self._pokemon_is_alocated[(min_src_id, '-', min_dest_id)] = True
+                    self.pokemon_is_alocated[(min_src_id, '-', min_dest_id)] = True
                     # agents_target[agent_id] = (src_id, dest_id, p.value)
                     agents_mission[agent.id] = agents_mission[agent.id][agents_mission[agent.id].index(start):]
                     agents_mission[agent.id] = agents_mission[agent.id] + min_short_path
@@ -337,6 +341,119 @@ class MainAlgo:
         print(agents_mission)
         return agents_mission
 
+        # p_e: Edge
+        #
+        # # for agent_id, mission_list in agents_mission.items():
+        # #     first=2
+        # #     for m in mission_list:
+        # #         if first == 0:
+        # #             del mission_list[mission_list.index(m)]
+        # #         else:
+        # #             first =first-1
+        #
+        # for agent_id, mission_list in agents_mission.items():
+        #     if agent_id in agent_ids and len(mission_list) < 2:
+        #         agent = agents[agent_id]
+        #         min_dest = float('inf')
+        #         min_short_path = []
+        #         at_end = False
+        #
+        #         for p_id, p_e in edge_for_pokemon.items():
+        #             src_id = p_e.get_src()
+        #             dest_id = p_e.get_dest()
+        #             mission_list: []
+        #             at_end = False
+        #             not_allocate = True
+        #
+        #             if True: #not self._pokemon_is_alocated.get((src_id, '-', dest_id)):  # if pok not allocated
+        #             # if not self._pokemon_is_alocated.get((src_id, '-', dest_id)):  # if pok not allocated
+        #
+        #                 for agent_id_in, mission_list_in in agents_mission.items():
+        #                     if agent_id_in != agent_id and src_id in mission_list_in and dest_id in mission_list_in and mission_list_in.index(
+        #                             src_id) == mission_list_in.index(dest_id) - 1:
+        #                         not_allocate = False
+        #                         break
+        #
+        #                 if not_allocate and src_id in mission_list and dest_id in mission_list:
+        #                     self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+        #                     break  # the pokemon on list of agent   #Todo: check that only internal loop is break
+        #                 elif not_allocate and src_id in mission_list and not dest_id in mission_list:
+        #                     if agent.src == dest_id:
+        #                         self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+        #                         break
+        #                     mission_list.insert(mission_list.index(src_id) + 1, dest_id)
+        #                     print(mission_list.index(src_id))
+        #                     print(len(mission_list) - 1)
+        #                     if mission_list.index(dest_id) != (len(mission_list) - 1):
+        #                         mission_list.insert(mission_list.index(dest_id) + 1, src_id)
+        #                     self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+        #                     break
+        #
+        #                 elif not_allocate and not src_id in mission_list and dest_id in mission_list:
+        #                     if agent.src == src_id:
+        #                         self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+        #                         break
+        #                     mission_list.insert(mission_list.index(dest_id) + 1, src_id)
+        #                     if mission_list.index(src_id) != (len(mission_list) - 1):
+        #                         mission_list.insert(mission_list.index(src_id) + 1, dest_id)
+        #                     self._pokemon_is_alocated[(src_id, '-', dest_id)] = True
+        #                     break
+        #
+        #                 elif not_allocate:  # if not in list of mission
+        #                     temp_d, temp_path = alg.shortest_path(mission_list[0],
+        #                                                           src_id)  # Todo: mission_list[-1] is the last one ?
+        #                     # p = [p for p in pokemons if p.id==p_id]
+        #                     temp_d = (temp_d * (agent.value) * agent.speed)
+        #                     if temp_d < min_dest:
+        #                         min_dest = temp_d
+        #                         min_short_path = temp_path
+        #                         min_short_path.append(dest_id)
+        #                         min_agent = agent.id
+        #                         min_src_id = src_id
+        #                         min_dest_id = dest_id
+        #                     at_end = True
+        #
+        #         if at_end:
+        #             start = min_short_path.pop(0)  # pop -> mission_list[0]
+        #             self._pokemon_is_alocated[(min_src_id, '-', min_dest_id)] = True
+        #             # agents_target[agent_id] = (src_id, dest_id, p.value)
+        #             agents_mission[agent.id] = agents_mission[agent.id][agents_mission[agent.id].index(start):]
+        #             agents_mission[agent.id] = agents_mission[agent.id] + min_short_path
+        #
+        #         #         else:   # if not in list of mission
+        #         #             temp_d, temp_path = alg.shortest_path(mission_list[-1], src_id)   #Todo: mission_list[-1] is the last one ?
+        #         #             # p = [p for p in pokemons if p.id==p_id]
+        #         #             p = next(n for n in pokemons if n.id == p_id)
+        #         #             temp_d = (temp_d * agent.value * agent.speed)/p.value
+        #         #             if temp_d < min_dest:
+        #         #                 min_dest = temp_d
+        #         #                 min_short_path = temp_path
+        #         #                 min_short_path.append(dest_id)
+        #         #                 min_agent = agent.id
+        #         #                 min_src_id = src_id
+        #         #                 min_dest_id = dest_id
+        #         #             at_end = True
+        #         #
+        #         # if at_end:
+        #         #     min_short_path.pop(0)
+        #         #     # min_short_path.append(dest_id)
+        #         #     self._pokemon_is_alocated[(min_src_id, '-', min_dest_id)] = True
+        #         #     agents_mission[agent.id] = agents_mission[agent.id]+min_short_path
+        # print(agents_mission)
+        # return agents_mission
+
+    def resetN(self):   #self.pokemon_is_alocated, self.edge_for_pokemon
+        d = []
+        for p_id, p_e in self._edge_for_pokemon.items():
+            src_id = p_e.get_src()
+            dest_id = p_e.get_dest()
+            i = src_id, '-', dest_id
+            d.insert(0, i)
+        for id in self.pokemon_is_alocated:
+            if d.__contains__(id):
+                continue
+            else:
+                self.pokemon_is_alocated[id] = False
 #########################################################################################################
 #                                      calculate function                                               #
 #########################################################################################################
