@@ -1,30 +1,26 @@
 import json
-import queue
-
-# from sqlalchemy import null
-from heapq import heappush, heappop  # Todo: !
+from heapq import heappush, heappop
 from itertools import count
-from queue import PriorityQueue
-
-
-# from Egde import Edge
 from Digraph import *
-# from Node import Node
 from collections import deque
-from decimal import Decimal
 from typing import List
-import matplotlib
-import matplotlib.pyplot as plt
-import numpy as np
 
 
+"""
+In this task we used pattern MVC (Model-View-Controller), we did it in order to maintain the code order and correct implementation of the problem.
+
+This part is the 'Model', here the heavy calculations for the optimal routes for agents take place.
+This section receives data from 'Controller' and returns answers to queries, so that eventually new data will be displayed in 'View' part.
+
+Authors: Roee Tal and Yossi Elias
+
+"""
 
 
 
 class GraphAlgo():
 
     def __init__(self):
-        # self._graph = self.load_from_json(path)
         self._graph = DiGraph()
         self.INF = float('inf')
 
@@ -34,21 +30,6 @@ class GraphAlgo():
         """
         return self._graph
 
-
-    # def load_from_json(self, file_name: str) -> bool:
-    #     """
-    #    Loads a graph from a json file.
-    #    @param file_name: The path to the json file
-    #    @returns True if the loading was successful, False o.w.
-    #    """
-    #     try:
-    #         if g == None:
-    #             return False
-    #         else:
-    #             self._graph = g
-    #             return True
-    #     except:
-    #         return False
 
 
     def save_to_json(self, file_name: str) -> bool:
@@ -92,13 +73,9 @@ class GraphAlgo():
         c = count()
         heap = []
         push(heap, (0, next(c), curr))
-        # pq = PriorityQueue()
-        # pq.put((0,curr))
         curr.set_visit(True)
 
-        # while not pq.empty():
         while heap:
-            # (dist, cur_n) = pq.get()
             (dist, _, cur_n) = pop(heap)
             cur_key = cur_n.get_id()
             dic = DiGraph.getNeighboursDict(self._graph, cur_n.get_id())
@@ -113,9 +90,6 @@ class GraphAlgo():
                     if (new_tag < self.INF and node.get_info() == self.INF) or node.get_info() > new_tag:
                         node.set_tag(cur_key)
                         node.set_info(new_tag)
-                        # if node.get_visit() is False:
-                        # pq.put((new_tag, node))
-                        # node.set_visit(True)
                         push(heap, (new_tag, next(c), node))
 
         if dest.get_info() is self.INF:
@@ -143,7 +117,7 @@ class GraphAlgo():
         list = []
         for i in range(counter):
             temp_n = stack.pop()
-            list.append(temp_n)    #Todo: yossi change from: 'list.append(temp_n)'
+            list.append(temp_n)
         return list
 
 
@@ -188,7 +162,7 @@ class GraphAlgo():
                     cost = dest.get_info()
                     if (cost < minCost):
                         minPath = self.shortest_path(src_id, dest.get_id())[
-                            1]  # Todo: check that the second play of 'shortest_path' is not arm the 'info' of dist of all nodes
+                            1]
                         del minPath[0]
                         minCost = cost
                         tempPath = minPath

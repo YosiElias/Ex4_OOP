@@ -1,10 +1,18 @@
-import json
-from types import SimpleNamespace
 from unittest import TestCase
+from MVC_Controller_GraphAlgo import GraphAlgo
+from MVC_Model import MainAlgo
 
-from GraphAlgo import GraphAlgo
-from MVC_Algo import MainAlgo
+"""
+Here we performed tests for our main calculation functions.
+We performed the tests for data reception and proper work with the client manually, 
+since the client does not support the possibility of performing automatic tests on data reception from it.
 
+We have seen it right that these tests test within them many 
+additional auxiliary functions since they are aided by them due to their centrality
+
+Authors: Roee Tal and Yossi Elias
+
+"""
 
 class TestMainAlgo(TestCase):
     def test_edge_for_pokemon_calculator(self):

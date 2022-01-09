@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="cba60032-e0ad-4b03-b385-9a1578927097" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MVC_Algo.py" beforeDir="false" afterPath="$PROJECT_DIR$/MVC_Algo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MVC_Algo_GraphAlgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/MVC_Controller_GraphAlgo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MVC_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/MVC_Model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_MVC_Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_MVC_Model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +40,7 @@
       <recent name="C:\Users\Aviva\Desktop\Ex4\code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Unittests for test_MVC_Algo.TestMainAlgo">
+  <component name="RunManager" selected="Python.MVC_GUI">
     <configuration name="MVC_GUI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -102,7 +104,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_MVC_Algo.TestMainAlgo" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_MVC_Model.TestMainAlgo" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -112,11 +114,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_MVC_Algo.TestMainAlgo&quot;" />
+      <option name="_new_target" value="&quot;test_MVC_Model.TestMainAlgo&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_MVC_Algo.TestMainAlgo.test_agent_alocate_calculator_update_multi" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_MVC_Model.TestMainAlgo.test_agent_alocate_calculator_update_multi" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -126,11 +128,11 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_MVC_Algo.TestMainAlgo.test_agent_alocate_calculator_update_multi&quot;" />
+      <option name="_new_target" value="&quot;test_MVC_Model.TestMainAlgo.test_agent_alocate_calculator_update_multi&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_MVC_Algo.TestMainAlgo.test_edge_for_pokemon_calculator" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_MVC_Model.TestMainAlgo.test_edge_for_pokemon_calculator" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="code" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -140,7 +142,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_MVC_Algo.TestMainAlgo.test_edge_for_pokemon_calculator&quot;" />
+      <option name="_new_target" value="&quot;test_MVC_Model.TestMainAlgo.test_edge_for_pokemon_calculator&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -148,16 +150,16 @@
       <item itemvalue="Python.student_code" />
       <item itemvalue="Python.try_re_best" />
       <item itemvalue="Python.MVC_GUI" />
-      <item itemvalue="Python tests.Unittests for test_MVC_Algo.TestMainAlgo.test_edge_for_pokemon_calculator" />
-      <item itemvalue="Python tests.Unittests for test_MVC_Algo.TestMainAlgo.test_agent_alocate_calculator_update_multi" />
-      <item itemvalue="Python tests.Unittests for test_MVC_Algo.TestMainAlgo" />
+      <item itemvalue="Python tests.Unittests for test_MVC_Model.TestMainAlgo.test_edge_for_pokemon_calculator" />
+      <item itemvalue="Python tests.Unittests for test_MVC_Model.TestMainAlgo.test_agent_alocate_calculator_update_multi" />
+      <item itemvalue="Python tests.Unittests for test_MVC_Model.TestMainAlgo" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Unittests for test_MVC_Algo.TestMainAlgo" />
         <item itemvalue="Python.MVC_GUI" />
-        <item itemvalue="Python tests.Unittests for test_MVC_Algo.TestMainAlgo.test_agent_alocate_calculator_update_multi" />
-        <item itemvalue="Python tests.Unittests for test_MVC_Algo.TestMainAlgo.test_edge_for_pokemon_calculator" />
+        <item itemvalue="Python tests.Unittests for test_MVC_Model.TestMainAlgo" />
+        <item itemvalue="Python tests.Unittests for test_MVC_Model.TestMainAlgo.test_agent_alocate_calculator_update_multi" />
+        <item itemvalue="Python tests.Unittests for test_MVC_Model.TestMainAlgo.test_edge_for_pokemon_calculator" />
         <item itemvalue="Python.try_re_best" />
       </list>
     </recent_temporary>
@@ -192,6 +194,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="228" key="#com.intellij.ide.macro.MacrosDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1640924834684" />
+    <state x="690" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1641752954886">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1641752954886" />
     <state width="1509" height="258" key="DebuggerActiveHint" timestamp="1641386869579">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -201,34 +207,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1640926145731" />
-    <state width="1899" height="412" key="GridCell.Tab.0.bottom" timestamp="1641749657674">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1259" height="159" key="GridCell.Tab.0.bottom" timestamp="1641756497034">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="1037" height="343" key="GridCell.Tab.0.bottom/0.0.1080.1880@0.0.1080.1880" timestamp="1640941460768" />
     <state width="1899" height="170" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1641421020797" />
-    <state width="1259" height="299" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1641669555738" />
-    <state width="1899" height="412" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1641749657674" />
-    <state width="1899" height="412" key="GridCell.Tab.0.center" timestamp="1641749657674">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1259" height="159" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1641756497034" />
+    <state width="1899" height="369" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1641753622088" />
+    <state width="1259" height="159" key="GridCell.Tab.0.center" timestamp="1641756497029">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="1037" height="343" key="GridCell.Tab.0.center/0.0.1080.1880@0.0.1080.1880" timestamp="1640941460768" />
     <state width="1899" height="170" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1641421020797" />
-    <state width="1259" height="299" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1641669555737" />
-    <state width="1899" height="412" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1641749657674" />
-    <state width="1899" height="412" key="GridCell.Tab.0.left" timestamp="1641749657673">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1259" height="159" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1641756497029" />
+    <state width="1899" height="369" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1641753622087" />
+    <state width="1259" height="159" key="GridCell.Tab.0.left" timestamp="1641756497029">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="1037" height="343" key="GridCell.Tab.0.left/0.0.1080.1880@0.0.1080.1880" timestamp="1640941460768" />
     <state width="1899" height="170" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1641421020797" />
-    <state width="1259" height="299" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1641669555737" />
-    <state width="1899" height="412" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1641749657673" />
-    <state width="1899" height="412" key="GridCell.Tab.0.right" timestamp="1641749657674">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1259" height="159" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1641756497029" />
+    <state width="1899" height="369" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1641753622087" />
+    <state width="1259" height="159" key="GridCell.Tab.0.right" timestamp="1641756497029">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="1037" height="343" key="GridCell.Tab.0.right/0.0.1080.1880@0.0.1080.1880" timestamp="1640941460768" />
     <state width="1899" height="170" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1641421020797" />
-    <state width="1259" height="299" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1641669555737" />
-    <state width="1899" height="412" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1641749657674" />
+    <state width="1259" height="159" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1641756497029" />
+    <state width="1899" height="369" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1641753622088" />
     <state width="1899" height="415" key="GridCell.Tab.1.bottom" timestamp="1641674575257">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -268,35 +274,6 @@
     <state x="203" y="435" width="672" height="678" key="search.everywhere.popup/0.0.1080.1880@0.0.1080.1880" timestamp="1640935792771" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>276</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>374</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/GUI.py</url>
-          <line>368</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/student_code.py</url>
-          <line>191</line>
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/student_code.py</url>
-          <line>54</line>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="alg._graph._Nodes[9]._location" />
