@@ -22,11 +22,12 @@ We took the graph implementation from our [prevoius assignment](https://github.c
 * 
 
 ## The main algorithm
+* Our idea was to allocate only one pokemon each iteration. We thought if we sort all the pokenoms in some way, the agent will miss closer pokemons, because pokemons always added .
 * We took inspiration from our first elevator assignment and second elevator assignment, and used the algorithms we build in our first graph assignment and second graph assignment.
 * The same algorithm works on both cases of one agent and more than one, but let's separate the explanation into 2 parts:
 One agent:
   1. Create an empty list that will hold the nodes that the agent has to go through
-  2. Iterate over all the pokemons: if there is pokemon on some edge that connected to node that the agent is there-take this pokemon. else - find the shortest path and              distance from each one to the agent.
+  2. Iterate over all the pokemons: if there is pokemon on some edge that connected to node that the agent is there-take this pokemon. else - find the shortest path(using shortest path function in the graph task) and              distance from each one to the agent.
   3. Each time set only one pokemon to the agent(it will be the closest pokemon).
 
 In case of more than one agent:
