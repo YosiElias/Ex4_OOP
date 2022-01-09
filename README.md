@@ -19,7 +19,7 @@ We took the graph implementation from our [prevoius assignment](https://github.c
 * [The main algorithm](#The-main-algorithm)
 * [Download and run](#Download-and-run)
 * [Results](#Results)
-* [External info](#External-info)
+* [UML](#UML)
 
 ## Main class planning
 * 
@@ -57,3 +57,6 @@ In case of more than one agent:
 ## Results
 
 ![This is an image](https://github.com/YosiElias/Ex4_OOP/blob/master/imgs/res.png)
+
+
+## UML
