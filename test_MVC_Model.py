@@ -1,5 +1,5 @@
 from unittest import TestCase
-from MVC_Algo_GraphAlgo import GraphAlgo
+from MVC_Controller_GraphAlgo import GraphAlgo
 from MVC_Model import MainAlgo
 
 """

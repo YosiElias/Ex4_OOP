@@ -8,7 +8,6 @@ from typing import List
 
 """
 In this task we used pattern MVC (Model-View-Controller), we did it in order to maintain the code order and correct implementation of the problem.
-This is the main algorithm file, i.e. the part responsible for the 'Controller'.
 
 This part is the 'Model', here the heavy calculations for the optimal routes for agents take place.
 This section receives data from 'Controller' and returns answers to queries, so that eventually new data will be displayed in 'View' part.

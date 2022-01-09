@@ -4,14 +4,14 @@ from client import Client
 import json
 import pygame
 from pygame import *
-from MVC_Algo_GraphAlgo import GraphAlgo
+from MVC_Controller_GraphAlgo import GraphAlgo
 import time
 
 
 
 """
 In this task we used pattern MVC (Model-View-Controller), we did it in order to maintain the code order and correct implementation of the problem.
-This is the main algorithm file, i.e. the part responsible for the 'Controller'.
+This is the main manege file, i.e. the part responsible for the 'Controller'.
 
 In this section, communication with the client takes place, as well as data about the graph, Pokemon, and agents.
 The information from here is sent to Guy who is in charge of the 'View'.
