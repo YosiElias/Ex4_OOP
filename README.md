@@ -30,6 +30,7 @@ One agent:
   1. Create an empty list that will hold the nodes that the agent has to go through
   2. Iterate over all the pokemons: if there is pokemon on some edge that connected to node that the agent is there-take this pokemon. else - find the shortest path(using shortest path function in the graph task) and              distance from each one to the agent.
   3. Each time set only one pokemon to the agent(it will be the closest pokemon).
+  4. We keep the moves to be less than 10 per second.
 
 In case of more than one agent:
   * We created a dict of all the edges which saves if there is allocated pokemon on each edge, to avoid the case that 2 agents will go to the same pokemon.
