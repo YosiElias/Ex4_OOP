@@ -32,3 +32,8 @@ Next run the jar file like this: java -jar Ex4_Server_v0.0.jar __
 
 Last open the project in Pycharm and run the GUI file with a 3.8 python interpreter:
   Edit the configuration by changing the 'Script path' to your local directory and specify to Ex4\Client\GUI.py
+  
+  
+## Results
+
+![This is an image](https://github.com/YosiElias/Ex4_OOP/blob/master/imgs/res.png)
