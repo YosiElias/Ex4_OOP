@@ -7,7 +7,6 @@ import random
 ###############################################################################
 #                               class DiGraph                                    #
 ###############################################################################
-import Node
 
 
 class DiGraph():
@@ -30,7 +29,7 @@ class DiGraph():
         return '|V|={}, |E|={}'.format(len(self._Nodes), self.num_of_edges)
 
 
-    def getNode(self, node_id: int) -> Node:
+    def getNode(self, node_id: int):
         return self._Nodes.get(node_id)
 
     def getN(self):
