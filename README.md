@@ -8,8 +8,15 @@ We took the graph implementation from our [prevoius assignment](https://github.c
 ![gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
 
 
+## Table of contents
+* [The algorithm](#Main-classes-planning)
+* [The main algorithm](#The-main-algorithm)
+* [Download and run](#Download-and-run)
+* [Performances](#Performances)
+* [Visualization](#Visualization)
+* [External info](#External-info)
 
-## The algorithm
+## The main algorithm
 * We took inspiration from our first elevator assignment and second elevator assignment, and used the algorithms we build in our first graph assignment and second graph assignment.
 * The same algorithm works on both cases of one agent and more than one, but let's separate the explanation into 2 parts:
 One agent:
@@ -26,12 +33,13 @@ In case of more than one agent:
 
 ## Download and run
 
-First clone the project.
-Next run the jar file like this: java -jar Ex4_Server_v0.0.jar __
+* First clone the project.
+* Next go to cmd were the project's folder is, and run the jar file like this: java -jar Ex4_Server_v0.0.jar __
   Instead of the underscore put a number between 0 and 15 (levels).
 
-Last open the project in Pycharm and run the GUI file with a 3.8 python interpreter:
-  Edit the configuration by changing the 'Script path' to your local directory and specify to Ex4\Client\GUI.py
+* Last open the project in Pycharm and run the **MVC_GUI file**.
+* To stop the run press double esc.
+**Please visit our wiki page for a short view of how the GUI looks like and how it works**
   
   
 ## Results
