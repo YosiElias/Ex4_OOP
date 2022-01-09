@@ -1,4 +1,6 @@
 # Oop_Ex4
+![gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
+
 This project is the final task in the course. In this assignment we get a graph, a number of agents, and pokemons.
 
 The goal of the game is to collect as much pokemons as we can in the time given to each level (0-15).
@@ -6,7 +8,6 @@ The goal of the game is to collect as much pokemons as we can in the time given 
 We took the graph implementation from our [prevoius assignment](https://github.com/roee-tal/EX3-OOP)
 
 
-![gif](https://github.com/roee-tal/Final-project-part-2/blob/main/gif.gif)
 
 **Visit the [wiki](https://github.com/YosiElias/Ex4_OOP/wiki) for more information** 
 
