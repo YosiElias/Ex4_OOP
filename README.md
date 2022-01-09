@@ -19,6 +19,7 @@ We took the graph implementation from our [prevoius assignment](https://github.c
 * [External info](#External-info)
 
 ## Main class planning
+* 
 
 ## The main algorithm
 * We took inspiration from our first elevator assignment and second elevator assignment, and used the algorithms we build in our first graph assignment and second graph assignment.
