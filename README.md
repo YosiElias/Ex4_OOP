@@ -22,7 +22,7 @@ We took the graph implementation from our [prevoius assignment](https://github.c
 * [UML](#UML)
 
 ## Design the project
-* We built our solution in the structure of MVC, we used the classes we wrote in the previous task for the purpose of using the ShortPath algorithm.
+* We built our solution in the structure of **MVC**, we used the classes we wrote in the previous task for the purpose of using the ShortPath algorithm.
 In the MAIN_ALGO class we collect the data from the client and arrange it in such a way that the functions from the previous task can work with it.
 In addition from there we pass commands to the next steps in the game and update over time the GUI what to display on the screen.
 * In addition, out of this class runs in the GraphAlgo class the calculation of the fastest way for the next step in the game in the most optimal way.
