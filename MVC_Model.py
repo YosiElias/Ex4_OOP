@@ -4,7 +4,7 @@ from client import Client
 import json
 import pygame
 from pygame import *
-from GraphAlgo import GraphAlgo
+from MVC_Algo_GraphAlgo import GraphAlgo
 import time
 
 

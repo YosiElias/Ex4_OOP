@@ -1,5 +1,5 @@
 from types import SimpleNamespace
-from MVC_Algo import MainAlgo
+from MVC_Model import MainAlgo
 from pygame import gfxdraw
 import pygame
 from pygame import *

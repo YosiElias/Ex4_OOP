@@ -1,6 +1,6 @@
 from unittest import TestCase
-from GraphAlgo import GraphAlgo
-from MVC_Algo import MainAlgo
+from MVC_Algo_GraphAlgo import GraphAlgo
+from MVC_Model import MainAlgo
 
 """
 Here we performed tests for our main calculation functions.
